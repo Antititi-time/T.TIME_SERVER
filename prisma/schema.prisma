@@ -10,7 +10,7 @@ datasource db {
 model chat {
   id              Int      @id @default(autoincrement())
   user_id         Int
-  question_type   String   @db.VarChar
+  question_type   String   @db.VarChar(10)
   question_number Int
   answer          String
   grade           Int
@@ -21,7 +21,7 @@ model chat {
 
 model nickname {
   id        Int         @id(map: "user_pkey") @default(autoincrement())
-  name      String      @db.VarChar
+  name      String      @db.VarChar(50)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   chat      chat[]
