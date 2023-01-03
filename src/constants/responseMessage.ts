@@ -5,6 +5,7 @@ export default {
   BAD_REQUEST: '잘못된 요청입니다.',
 
   CREATE_TEAM_SUCCESS: '초대장 생성 성공',
+  PARTICIPATE_TEAM_SUCCESS: '프로젝트 팀 입장 성공',
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',

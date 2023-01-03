@@ -8,35 +8,35 @@ datasource db {
 }
 
 model chat {
-  id              Int       @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   user_id         Int
-  question_type   String    @db.VarChar
+  question_type   String   @db.VarChar
   question_number Int
   answer          String
   grade           Int
-  createdAt       DateTime @default(now()) 
-  updatedAt       DateTime @updatedAt()
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model nickname {
-  id        Int       @id(map: "user_pkey") @default(autoincrement())
-  name      String    @db.VarChar
+  id        Int      @id(map: "user_pkey") @default(autoincrement())
+  name      String   @db.VarChar
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt() 
+  updatedAt DateTime @updatedAt
 }
 
 model team {
-  id          Int       @id @default(autoincrement())
-  team_name   String    @db.VarChar(100)
+  id          Int      @id @default(autoincrement())
+  team_name   String   @db.VarChar(100)
   team_member Int
-  team_code   String?   @db.VarChar(100)
-  createdAt   DateTime @default(now()) 
-  updatedAt   DateTime @updatedAt() 
+  team_code   String?  @db.VarChar(100)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model team_user {
   id           Int     @id @default(autoincrement())
   user_id      Int
   team_id      Int
-  is_completed Boolean
+  is_completed Boolean @default(false)
 }
