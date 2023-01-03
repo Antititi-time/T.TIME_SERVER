@@ -1,8 +1,8 @@
 import { Router } from "express";
-import teamRouter from "./teamRouter"
+import { teamController } from "../controller";
 
 const router: Router = Router();
 
-router.use("/team", teamRouter);
+router.post("/", teamController.makeTeam);
 
 export default router;
