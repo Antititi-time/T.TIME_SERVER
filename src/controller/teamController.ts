@@ -1,7 +1,9 @@
+import { sendMessageToSlack } from './../modules/slackAPI';
 import { Request, Response } from 'express';
 import { message, statusCode } from '../constants';
 import { fail, success } from '../constants/util';
 import makeTeamCode from '../modules/makeTeamCode';
+import { slackMessage } from '../modules/returnToSlackMessage';
 import { teamService } from '../service';
 
 const makeTeam = async (req: Request, res: Response) => {
@@ -45,6 +47,13 @@ const participateTeam = async (req: Request, res: Response) => {
       .send(success(statusCode.OK, message.PARTICIPATE_TEAM_SUCCESS, data));
   } catch (error) {
     console.log(error);
+    const errorMessage: string = slackMessage(
+      req.method.toUpperCase(),
+      req.originalUrl,
+      error,
+      req.body.user?.id,
+    );
+    sendMessageToSlack(errorMessage);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
       .send(

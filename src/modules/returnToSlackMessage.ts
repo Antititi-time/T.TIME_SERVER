@@ -1,4 +1,4 @@
-export const sendMessageToSlack = (
+export const slackMessage = (
   method: string,
   originalUrl: string,
   error: any,
