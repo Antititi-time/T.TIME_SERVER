@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '../config';
-
 export const sendMessageToSlack = async (message: string) => {
   try {
     await axios.post(config.webhookURL, { text: message });
