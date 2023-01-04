@@ -3,7 +3,7 @@ import { teamController } from '../controller';
 
 const router: Router = Router();
 
-router.post('/', teamController.makeTeam);
-router.post('/:teamCode', teamController.participateTeam);
+router.post('/', teamController.makeTeam)
+router.post('/:teamcode', teamController.participateTeam);
 
 export default router;
