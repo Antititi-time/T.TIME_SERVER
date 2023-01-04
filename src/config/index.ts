@@ -10,7 +10,15 @@ if (envFound.error) {
 
 export default {
   /**
+   * env
+   */
+  env: process.env.NODE_ENV as string,
+  /**
    * port
    */
   port: parseInt(process.env.PORT as string, 10) as number,
+  /**
+   * webhookURL
+   */
+  webhookURL: process.env.SLACK_WEBHOOK_URL as string,
 };
