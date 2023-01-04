@@ -61,7 +61,38 @@ const participateTeam = async (req: Request, res: Response) => {
       );
   }
 };
+
+const checkTeamHappiness = async (req: Request, res: Response) => {
+  const { teamCode } = req.params;
+
+  if (!teamCode)
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
+  try {
+    const data = await teamService.checkTeamHappiness(teamCode);
+
+    return res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, message.CHECK_TEAM_HAPPINESS_SUCCESS, data));
+  } catch (error) {
+    console.log(error);
+    const errorMessage: string = slackMessage(
+      req.method.toUpperCase(),
+      req.originalUrl,
+      error,
+      req.body.user?.id,
+    );
+    sendMessageToSlack(errorMessage);
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(
+        fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+      );
+  }
+};
 export default {
   makeTeam,
   participateTeam,
+  checkTeamHappiness,
 };
