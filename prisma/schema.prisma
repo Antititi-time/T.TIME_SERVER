@@ -8,19 +8,19 @@ datasource db {
 }
 
 model chat {
-  id              Int      @id @default(autoincrement())
-  user_id         Int
-  question_type   String   @db.VarChar(10)
-  question_number Int
-  answer          String
-  grade           Int
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  nickname        nickname @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
+  id              Int       @id(map: "table_name_pkey") @unique @default(autoincrement())
+  user_id         Int?
+  question_type   String?   @db.VarChar(10)
+  question_number Int?
+  answer          String?
+  grade           Int?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  nickname        nickname? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
 }
 
 model nickname {
-  id        Int         @id(map: "user_pkey") @default(autoincrement())
+  id        Int         @id(map: "user_pkey") @unique @default(autoincrement())
   name      String      @db.VarChar(50)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
