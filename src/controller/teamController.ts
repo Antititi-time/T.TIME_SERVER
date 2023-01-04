@@ -72,6 +72,12 @@ const checkTeamHappiness = async (req: Request, res: Response) => {
   try {
     const data = await teamService.checkTeamHappiness(teamCode);
 
+    if (!data) {
+      return res
+        .status(statusCode.NOT_FOUND)
+        .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+    }
+
     return res
       .status(statusCode.OK)
       .send(success(statusCode.OK, message.CHECK_TEAM_HAPPINESS_SUCCESS, data));
