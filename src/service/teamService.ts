@@ -18,33 +18,38 @@ const makeTeam = async (
 };
 
 const participateTeam = async (nickname: string, teamCode: string) => {
-  const user = await prisma.nickname.create({
-    data: {
-      name: nickname,
-    },
-  });
-  if (!user) {
-    return null;
+  try {
+    const user = await prisma.nickname.create({
+      data: {
+        name: nickname,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    const findTeamId = await prisma.team.findFirst({
+      where: {
+        team_code: teamCode,
+      },
+    });
+    if (!findTeamId) {
+      return null;
+    }
+    const joinTeam = await prisma.team_user.create({
+      data: {
+        user_id: user.id,
+        team_id: findTeamId.id,
+        is_completed: false,
+      },
+    });
+    if (!joinTeam) {
+      return null;
+    }
+    return joinTeam;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
-  const findTeamId = await prisma.team.findFirst({
-    where: {
-      team_code: teamCode,
-    },
-  });
-  if (!findTeamId) {
-    return null;
-  }
-  const joinTeam = await prisma.team_user.create({
-    data: {
-      user_id: user.id,
-      team_id: findTeamId.id,
-      is_completed: false,
-    },
-  });
-  if (!joinTeam) {
-    return null;
-  }
-  return joinTeam;
 };
 export default {
   makeTeam,

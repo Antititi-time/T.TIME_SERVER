@@ -31,17 +31,26 @@ const participateTeam = async (req: Request, res: Response) => {
       .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const data = await teamService.participateTeam(nickname, teamCode);
+  try {
+    const data = await teamService.participateTeam(nickname, teamCode);
 
-  if (!data) {
+    if (!data) {
+      return res
+        .status(statusCode.NOT_FOUND)
+        .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+    }
+
     return res
-      .status(statusCode.NOT_FOUND)
-      .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, message.PARTICIPATE_TEAM_SUCCESS, data));
+  } catch (error) {
+    console.log(error);
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(
+        fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+      );
   }
-
-  return res
-    .status(statusCode.OK)
-    .send(success(statusCode.OK, message.PARTICIPATE_TEAM_SUCCESS, data));
 };
 export default {
   makeTeam,
