@@ -134,8 +134,45 @@ const getResultByType = async (teamId: number) => {
   }
 };
 
+const getTeamDetailResult = async (teamId: number, type: string) => {
+  const detailData = await prisma.chat.findMany({
+    where: {
+      team_id: teamId,
+      question_type: type,
+    },
+    select: {
+      nickname: {
+        select: {
+          name: true,
+        },
+      },
+      question_type: true,
+      question_number: true,
+      answer: true,
+      grade: true,
+    },
+    orderBy: {
+      question_number: 'asc',
+    },
+  });
+  const detailResult = await Promise.all(
+    detailData.map((data: any) => {
+      const result = {
+        nickname: data.nickname.name,
+        questionType: data.question_type,
+        questionNumber: data.question_number,
+        grade: data.grade,
+        answer: data.answer,
+      };
+      return result;
+    }),
+  );
+
+  return detailResult;
+};
 export default {
   userResult,
   teamResultByType,
   getResultByType,
+  getTeamDetailResult,
 };
