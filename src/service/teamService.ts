@@ -4,20 +4,20 @@ const prisma = new PrismaClient();
 const makeTeam = async (
   teamName: string,
   teamMember: number,
-  teamCode: string,
+  teamId: number,
 ) => {
   const team = await prisma.team.create({
     data: {
+      id: teamId,
       team_name: teamName,
       team_member: teamMember,
-      team_code: teamCode,
     },
   });
 
   return team;
 };
 
-const participateTeam = async (nickname: string, teamCode: string) => {
+const participateTeam = async (nickname: string, teamId: number) => {
   try {
     const user = await prisma.nickname.create({
       data: {
@@ -27,18 +27,11 @@ const participateTeam = async (nickname: string, teamCode: string) => {
     if (!user) {
       return null;
     }
-    const findTeamId = await prisma.team.findFirst({
-      where: {
-        team_code: teamCode,
-      },
-    });
-    if (!findTeamId) {
-      return null;
-    }
+
     const joinTeam = await prisma.team_user.create({
       data: {
         user_id: user.id,
-        team_id: findTeamId.id,
+        team_id: teamId,
         is_completed: false,
       },
     });
@@ -52,20 +45,11 @@ const participateTeam = async (nickname: string, teamCode: string) => {
   }
 };
 
-const checkTeamHappiness = async (teamCode: string) => {
+const checkTeamHappiness = async (teamId: number) => {
   try {
-    const checkTeamId = await prisma.team.findFirst({
-      where: {
-        team_code: teamCode,
-      },
-    });
-    if (!checkTeamId) {
-      return null;
-    }
-
     const checkHappiness = await prisma.team_user.findMany({
       where: {
-        team_id: checkTeamId.id,
+        team_id: teamId,
         is_completed: true,
       },
       select: {
@@ -75,7 +59,7 @@ const checkTeamHappiness = async (teamCode: string) => {
 
     const teamInfo = await prisma.team.findFirst({
       where: {
-        id: checkTeamId.id,
+        id: teamId,
       },
       select: {
         team_member: true,
