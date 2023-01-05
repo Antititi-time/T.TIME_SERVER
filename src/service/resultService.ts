@@ -46,7 +46,7 @@ const userResult = async (userId: number) => {
     );
 
     const data = {
-      date: dayjs(findTeam.team.updatedAt).format('YYYY-MM-DD'),
+      date: dayjs().format('YYYY-MM-DD'),
       nickname: findTeam.nickname.name,
       teamName: findTeam.team.team_name,
       result: scoreResult,
@@ -170,9 +170,31 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
 
   return detailResult;
 };
+const checkUserHappiness = async (
+  userId: number,
+  isCompleted: boolean
+  ) => {
+    const data = await prisma.team_user.update({
+      where: {
+        user_id: userId,
+      },
+      data: {
+        is_completed: isCompleted
+      }
+    });
+
+    const result = {
+        "userId": data.user_id,
+        "completed": data.is_completed
+    }
+
+    return result;
+ }
+
 export default {
   userResult,
   teamResultByType,
   getResultByType,
   getTeamDetailResult,
+  checkUserHappiness,
 };

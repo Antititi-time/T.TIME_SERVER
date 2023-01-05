@@ -22,12 +22,12 @@ model chat {
 }
 
 model nickname {
-  id        Int         @id(map: "user_pkey") @unique @default(autoincrement())
-  name      String      @db.VarChar(50)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id        Int        @id(map: "user_pkey") @unique @default(autoincrement())
+  name      String     @db.VarChar(50)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   chat      chat[]
-  team_user team_user[]
+  team_user team_user?
 }
 
 model team {
@@ -42,7 +42,7 @@ model team {
 
 model team_user {
   id           Int      @id @default(autoincrement())
-  user_id      Int
+  user_id      Int      @unique
   team_id      Int
   is_completed Boolean
   nickname     nickname @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
