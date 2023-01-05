@@ -94,7 +94,48 @@ const teamResultByType = async (teamId: number) => {
   }
 };
 
+const getResultByType = async (teamId: number) => {
+  try {
+    const findTeamName = await prisma.team.findFirst({
+      where: {
+        id: teamId,
+      },
+    });
+    if (!findTeamName) {
+      return null;
+    }
+    const scores = await prisma.chat.groupBy({
+      by: ['question_type'],
+      where: {
+        team_id: teamId,
+      },
+      _sum: {
+        grade: true,
+      },
+      orderBy: {
+        _sum: {
+          grade: 'desc',
+        },
+      },
+    });
+    if (!scores) {
+      return null;
+    }
+    const teamResult = {
+      date: dayjs().format('YYYY-MM-DD'),
+      teamName: findTeamName?.team_name,
+      good: scores[0].question_type,
+      bad: scores.reverse()[0].question_type,
+    };
+    return teamResult;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export default {
   userResult,
   teamResultByType,
+  getResultByType,
 };
