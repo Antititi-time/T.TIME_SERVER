@@ -8,6 +8,7 @@ export default {
   PARTICIPATE_TEAM_SUCCESS: '프로젝트 팀 입장 성공',
   CHAT_ANSWER_SUCCESS: '해피니스 체크 답변 받기 성공',
   CHECK_TEAM_HAPPINESS_SUCCESS: '팀 해피니스 체크 성공',
+  READ_USER_RESULT_SUCCESS: '개인 결과 뷰 조회 성공',
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
