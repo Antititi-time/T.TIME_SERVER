@@ -16,7 +16,9 @@ model chat {
   grade           Int?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  team_id         Int?
   nickname        nickname? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
+  team            team?     @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_team_id_fk")
 }
 
 model nickname {
@@ -29,12 +31,12 @@ model nickname {
 }
 
 model team {
-  id          Int         @id @default(autoincrement())
+  id          Int         @id
   team_name   String      @db.VarChar(100)
   team_member Int
-  team_code   String?     @db.VarChar(100)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  chat        chat[]
   team_user   team_user[]
 }
 

@@ -2,7 +2,7 @@ import { sendMessageToSlack } from './../modules/slackAPI';
 import { Request, Response } from 'express';
 import { message, statusCode } from '../constants';
 import { fail, success } from '../constants/util';
-import makeTeamCode from '../modules/makeTeamCode';
+import makeTeamId from '../modules/makeTeamId';
 import { slackMessage } from '../modules/returnToSlackMessage';
 import { teamService } from '../service';
 
@@ -14,14 +14,14 @@ const makeTeam = async (req: Request, res: Response) => {
       .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const teamCode = makeTeamCode();
+  const teamId = makeTeamId();
 
-  try{
-    const data = await teamService.makeTeam(teamName, teamMember, teamCode);
+  try {
+    const data = await teamService.makeTeam(teamName, teamMember, teamId);
 
     return res
-    .status(statusCode.CREATED)
-    .send(success(statusCode.CREATED, message.CREATE_TEAM_SUCCESS, data));
+      .status(statusCode.CREATED)
+      .send(success(statusCode.CREATED, message.CREATE_TEAM_SUCCESS, data));
   } catch (error) {
     console.log(error);
     const errorMessage: string = slackMessage(
@@ -40,17 +40,17 @@ const makeTeam = async (req: Request, res: Response) => {
 };
 
 const participateTeam = async (req: Request, res: Response) => {
-  const { teamCode } = req.params;
+  const { teamId } = req.params;
   const { nickname } = req.body;
 
-  if (!teamCode || !nickname) {
+  if (!teamId || !nickname) {
     return res
       .status(statusCode.BAD_REQUEST)
       .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
   try {
-    const data = await teamService.participateTeam(nickname, teamCode);
+    const data = await teamService.participateTeam(nickname, +teamId);
 
     if (!data) {
       return res
@@ -79,14 +79,14 @@ const participateTeam = async (req: Request, res: Response) => {
 };
 
 const checkTeamHappiness = async (req: Request, res: Response) => {
-  const { teamCode } = req.params;
+  const { teamId } = req.params;
 
-  if (!teamCode)
+  if (!teamId)
     return res
       .status(statusCode.BAD_REQUEST)
       .send(fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
   try {
-    const data = await teamService.checkTeamHappiness(teamCode);
+    const data = await teamService.checkTeamHappiness(+teamId);
 
     if (!data) {
       return res
