@@ -42,15 +42,15 @@ const userResult = async (req: Request, res: Response) => {
 };
 
 const teamResultByType = async (req: Request, res: Response) => {
-  const { teamCode } = req.params;
-  if (!teamCode) {
+  const { teamId } = req.params;
+  if (!teamId) {
     return res
       .status(statusCode.BAD_REQUEST)
       .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
   try {
-    const data = await resultService.teamResultByType(teamCode);
+    const data = await resultService.teamResultByType(+teamId);
 
     if (!data) {
       return res
@@ -59,7 +59,9 @@ const teamResultByType = async (req: Request, res: Response) => {
     }
     return res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, message.READ_USER_RESULT_SUCCESS, data));
+      .send(
+        success(statusCode.OK, message.READ_TEAM_SCORE_BY_TYPE_SUCCESS, data),
+      );
   } catch (error) {
     console.log(error);
     const errorMessage: string = slackMessage(
