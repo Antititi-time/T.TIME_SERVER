@@ -4,7 +4,7 @@ import { teamController } from '../controller';
 const router: Router = Router();
 
 router.post('/', teamController.makeTeam);
-router.post('/:teamCode', teamController.participateTeam);
-router.get('/check/:teamCode', teamController.checkTeamHappiness);
+router.post('/:teamId', teamController.participateTeam);
+router.get('/check/:teamId', teamController.checkTeamHappiness);
 
 export default router;
