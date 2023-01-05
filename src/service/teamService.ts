@@ -24,9 +24,6 @@ const participateTeam = async (nickname: string, teamId: number) => {
         name: nickname,
       },
     });
-    if (!user) {
-      return null;
-    }
 
     const joinTeam = await prisma.team_user.create({
       data: {
@@ -35,10 +32,20 @@ const participateTeam = async (nickname: string, teamId: number) => {
         is_completed: false,
       },
     });
-    if (!joinTeam) {
-      return null;
-    }
-    return joinTeam;
+
+    const teamInfo = await prisma.team.findFirst({
+      where: {
+        id: teamId,
+      },
+    });
+
+    const data = {
+      user_id: joinTeam.user_id,
+      team_id: teamInfo?.id,
+      teamName: teamInfo?.team_name,
+    };
+
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
