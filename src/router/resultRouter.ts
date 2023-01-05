@@ -7,5 +7,6 @@ router.get('/:userId', resultController.userResult);
 router.get('/team/score/:teamId', resultController.teamResultByType);
 router.get('/team/:teamId', resultController.getTeamResultType);
 router.get('/team/:teamId/detail', resultController.getTeamDetailResult);
+router.patch('/:userId', resultController.checkUserHappiness);
 
 export default router;
