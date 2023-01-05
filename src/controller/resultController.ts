@@ -16,8 +16,8 @@ const userResult = async (req: Request, res: Response) => {
   
       if (!data) {
         return res
-          .status(statusCode.NOT_FOUND)
-          .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+          .status(statusCode.BAD_REQUEST)
+          .send(fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
       }
       return res
         .status(statusCode.OK)
