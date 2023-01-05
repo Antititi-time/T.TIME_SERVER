@@ -16,11 +16,27 @@ const makeTeam = async (req: Request, res: Response) => {
 
   const teamCode = makeTeamCode();
 
-  const data = await teamService.makeTeam(teamName, teamMember, teamCode);
+  try{
+    const data = await teamService.makeTeam(teamName, teamMember, teamCode);
 
-  return res
+    return res
     .status(statusCode.CREATED)
     .send(success(statusCode.CREATED, message.CREATE_TEAM_SUCCESS, data));
+  } catch (error) {
+    console.log(error);
+    const errorMessage: string = slackMessage(
+      req.method.toUpperCase(),
+      req.originalUrl,
+      error,
+      req.body.user?.id,
+    );
+    sendMessageToSlack(errorMessage);
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(
+        fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR),
+      );
+  }
 };
 
 const participateTeam = async (req: Request, res: Response) => {
