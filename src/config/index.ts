@@ -17,8 +17,8 @@ export default {
    * port
    */
   port: parseInt(process.env.PORT as string, 10) as number,
-  /**
-   * webhookURL
-   */
+   /**
+    * webhookURL
+   */ 
   webhookURL: process.env.SLACK_WEBHOOK_URL as string,
 };
