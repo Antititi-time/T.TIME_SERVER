@@ -135,6 +135,7 @@ const getResultByType = async (teamId: number) => {
 };
 
 const getTeamDetailResult = async (teamId: number, type: string) => {
+  try {
   const detailData = await prisma.chat.findMany({
     where: {
       team_id: teamId,
@@ -166,14 +167,20 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
       };
       return result;
     }),
-  );
+  )
 
   return detailResult;
+} catch (error) {
+  console.log(error);
+  throw error;
+ }
 };
+
 const checkUserHappiness = async (
   userId: number,
   isCompleted: boolean
   ) => {
+    try {
     const data = await prisma.team_user.update({
       where: {
         user_id: userId,
@@ -189,6 +196,10 @@ const checkUserHappiness = async (
     }
 
     return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+   }
  }
 
 export default {

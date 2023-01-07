@@ -6,6 +6,7 @@ const chatAnswer = async (
     userId: number,
     createAnswerDto: createAnswerDto
     ) => {
+      try {
         const chat = await prisma.chat.create({
           data: {
             user_id: userId,
@@ -17,6 +18,10 @@ const chatAnswer = async (
         });
       
         return chat;
+      } catch (error) {
+        console.log(error);
+        throw error;
+       }
       };
 
     
