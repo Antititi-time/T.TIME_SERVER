@@ -1,12 +1,39 @@
 import { Router } from 'express';
+import { body, param, query } from 'express-validator';
 import { resultController } from '../controller';
+import errorValidator from '../middleware/errorValidator';
 
 const router: Router = Router();
 
-router.get('/:userId', resultController.userResult);
-router.get('/team/score/:teamId', resultController.teamResultByType);
-router.get('/team/:teamId', resultController.getTeamResultType);
-router.get('/team/:teamId/detail', resultController.getTeamDetailResult);
-router.patch('/:userId', resultController.checkUserHappiness);
+router.get(
+  '/:userId',
+  [param('userId').notEmpty()],
+  errorValidator,
+  resultController.userResult,
+);
+router.get(
+  '/team/score/:teamId',
+  [param('teamId').notEmpty()],
+  errorValidator,
+  resultController.teamResultByType,
+);
+router.get(
+  '/team/:teamId',
+  [param('teamId').notEmpty()],
+  errorValidator,
+  resultController.getTeamResultType,
+);
+router.get(
+  '/team/:teamId/detail',
+  [param('teamId').notEmpty(), query('type').notEmpty()],
+  errorValidator,
+  resultController.getTeamDetailResult,
+);
+router.patch(
+  '/:userId',
+  [param('userId').notEmpty(), body('isCompleted').notEmpty()],
+  errorValidator,
+  resultController.checkUserHappiness,
+);
 
 export default router;
