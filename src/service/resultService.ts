@@ -40,7 +40,7 @@ const userResult = async (userId: number) => {
       scores.map((score: any) => {
         const result = {
           grade: score._sum.grade,
-          questionType: score.question_type,
+          questionType: score.questionType,
         };
         return result;
       }),
@@ -83,7 +83,7 @@ const teamResultByType = async (teamId: number) => {
       scores.map((score: any) => {
         const result = {
           grade: score._sum.grade,
-          questionType: score.question_type,
+          questionType: score.questionType,
         };
         return result;
       }),
