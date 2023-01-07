@@ -7,11 +7,6 @@ import { resultService } from '../service';
 
 const userResult = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  if (!userId) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
   try {
     const data = await resultService.userResult(+userId);
@@ -43,11 +38,6 @@ const userResult = async (req: Request, res: Response) => {
 
 const teamResultByType = async (req: Request, res: Response) => {
   const { teamId } = req.params;
-  if (!teamId) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
   try {
     const data = await resultService.teamResultByType(+teamId);
@@ -81,11 +71,6 @@ const teamResultByType = async (req: Request, res: Response) => {
 
 const getTeamResultType = async (req: Request, res: Response) => {
   const { teamId } = req.params;
-  if (!teamId) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
   try {
     const data = await resultService.getResultByType(+teamId);
@@ -120,11 +105,6 @@ const getTeamResultType = async (req: Request, res: Response) => {
 const getTeamDetailResult = async (req: Request, res: Response) => {
   const { type } = req.query;
   const { teamId } = req.params;
-  if (!teamId) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
   try {
     const data = await resultService.getTeamDetailResult(
@@ -162,12 +142,6 @@ const getTeamDetailResult = async (req: Request, res: Response) => {
 const checkUserHappiness = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const { isCompleted } = req.body;
-
-  if (!userId) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
   try {
     const data = await resultService.checkUserHappiness(+userId, isCompleted);

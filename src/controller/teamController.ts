@@ -8,12 +8,6 @@ import { teamService } from '../service';
 
 const makeTeam = async (req: Request, res: Response) => {
   const { teamName, teamMember } = req.body;
-  if (!teamName || !teamMember) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
-
   const teamId = makeTeamId();
 
   try {
@@ -42,12 +36,6 @@ const makeTeam = async (req: Request, res: Response) => {
 const participateTeam = async (req: Request, res: Response) => {
   const { teamId } = req.params;
   const { nickname } = req.body;
-
-  if (!teamId || !nickname) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
   try {
     const duplicateName = await teamService.duplicateName(nickname);
@@ -87,10 +75,6 @@ const participateTeam = async (req: Request, res: Response) => {
 const checkTeamHappiness = async (req: Request, res: Response) => {
   const { teamId } = req.params;
 
-  if (!teamId)
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
   try {
     const data = await teamService.checkTeamHappiness(+teamId);
 

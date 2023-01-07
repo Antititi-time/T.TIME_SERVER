@@ -136,71 +136,70 @@ const getResultByType = async (teamId: number) => {
 
 const getTeamDetailResult = async (teamId: number, type: string) => {
   try {
-  const detailData = await prisma.chat.findMany({
-    where: {
-      team_id: teamId,
-      question_type: type,
-    },
-    select: {
-      nickname: {
-        select: {
-          name: true,
-        },
+    const detailData = await prisma.chat.findMany({
+      where: {
+        team_id: teamId,
+        question_type: type,
       },
-      question_type: true,
-      question_number: true,
-      answer: true,
-      grade: true,
-    },
-    orderBy: {
-      question_number: 'asc',
-    },
-  });
-  const detailResult = await Promise.all(
-    detailData.map((data: any) => {
-      const result = {
-        nickname: data.nickname.name,
-        questionType: data.question_type,
-        questionNumber: data.question_number,
-        grade: data.grade,
-        answer: data.answer,
-      };
-      return result;
-    }),
-  )
-
-  return detailResult;
-} catch (error) {
-  console.log(error);
-  throw error;
- }
+      select: {
+        nickname: {
+          select: {
+            name: true,
+          },
+        },
+        question_type: true,
+        question_number: true,
+        answer: true,
+        grade: true,
+      },
+      orderBy: {
+        question_number: 'asc',
+      },
+    });
+    const detailResult = await Promise.all(
+      detailData.map((data: any) => {
+        const result = {
+          nickname: data.nickname.name,
+          questionType: data.question_type,
+          questionNumber: data.question_number,
+          grade: data.grade,
+          answer: data.answer,
+        };
+        return result;
+      }),
+    );
+    if (detailResult.length == 0) {
+      return null;
+    }
+    return detailResult;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
-const checkUserHappiness = async (
-  userId: number,
-  isCompleted: boolean
-  ) => {
-    try {
+const checkUserHappiness = async (userId: number, isCompleted: boolean) => {
+  try {
     const data = await prisma.team_user.update({
       where: {
         user_id: userId,
       },
       data: {
-        is_completed: isCompleted
-      }
+        is_completed: isCompleted,
+      },
     });
 
     const result = {
-        "userId": data.user_id,
-        "completed": data.is_completed
-    }
+      userId: data.user_id,
+      completed: data.is_completed,
+    };
 
     return result;
   } catch (error) {
     console.log(error);
     throw error;
-   }
- }
+  }
+};
 
 export default {
   userResult,
