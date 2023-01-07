@@ -21,4 +21,8 @@ export default {
     * webhookURL
    */ 
   webhookURL: process.env.SLACK_WEBHOOK_URL as string,
+  /**
+   * EC2
+   */
+  ec2URL: process.env.EC2_URL as string,
 };
