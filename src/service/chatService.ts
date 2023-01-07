@@ -1,31 +1,27 @@
 import { PrismaClient } from '@prisma/client';
-import { createAnswerDto } from '../interfaces/createAnswerDto';
+import { createAnswerDto } from '../interfaces/DTO';
 const prisma = new PrismaClient();
 
-const chatAnswer = async (
-    userId: number,
-    createAnswerDto: createAnswerDto
-    ) => {
-      try {
-        const chat = await prisma.chat.create({
-          data: {
-            user_id: userId,
-            question_type: createAnswerDto.questionType,
-            question_number: createAnswerDto.questionNumber,
-            answer: createAnswerDto.answer,
-            grade: createAnswerDto.grade
-          },
-        });
-      
-        return chat;
-      } catch (error) {
-        console.log(error);
-        throw error;
-       }
-      };
+const chatAnswer = async (userId: number, createAnswerDto: createAnswerDto) => {
+  try {
+    const chat = await prisma.chat.create({
+      data: {
+        userId: userId,
+        questionType: createAnswerDto.questionType,
+        questionNumber: createAnswerDto.questionNumber,
+        answer: createAnswerDto.answer,
+        grade: createAnswerDto.grade,
+        teamId: createAnswerDto.teamId,
+      },
+    });
 
-    
-  export default {
-    chatAnswer,
-  };
-  
+    return chat;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export default {
+  chatAnswer,
+};

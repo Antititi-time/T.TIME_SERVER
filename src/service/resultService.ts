@@ -1,3 +1,4 @@
+import { checkUserHappinessDto } from './../interfaces/DTO';
 import dayjs from 'dayjs';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -6,12 +7,12 @@ const userResult = async (userId: number) => {
   try {
     const findTeam = await prisma.team_user.findFirst({
       where: {
-        user_id: userId,
+        userId: userId,
       },
       select: {
         nickname: true,
         team: true,
-        team_id: true,
+        teamId: true,
       },
     });
     if (!findTeam) {
@@ -19,9 +20,9 @@ const userResult = async (userId: number) => {
     }
 
     const scores = await prisma.chat.groupBy({
-      by: ['question_type'],
+      by: ['questionType'],
       where: {
-        user_id: userId,
+        userId: userId,
       },
       _sum: {
         grade: true,
@@ -48,7 +49,7 @@ const userResult = async (userId: number) => {
     const data = {
       date: dayjs().format('YYYY-MM-DD'),
       nickname: findTeam.nickname.name,
-      teamName: findTeam.team.team_name,
+      teamName: findTeam.team.teamName,
       result: scoreResult,
     };
 
@@ -62,9 +63,9 @@ const userResult = async (userId: number) => {
 const teamResultByType = async (teamId: number) => {
   try {
     const scores = await prisma.chat.groupBy({
-      by: ['question_type'],
+      by: ['questionType'],
       where: {
-        team_id: teamId,
+        teamId: teamId,
       },
       _sum: {
         grade: true,
@@ -105,9 +106,9 @@ const getResultByType = async (teamId: number) => {
       return null;
     }
     const scores = await prisma.chat.groupBy({
-      by: ['question_type'],
+      by: ['questionType'],
       where: {
-        team_id: teamId,
+        teamId: teamId,
       },
       _sum: {
         grade: true,
@@ -123,9 +124,9 @@ const getResultByType = async (teamId: number) => {
     }
     const teamResult = {
       date: dayjs().format('YYYY-MM-DD'),
-      teamName: findTeamName?.team_name,
-      good: scores[0].question_type,
-      bad: scores.reverse()[0].question_type,
+      teamName: findTeamName?.teamName,
+      good: scores[0].questionType,
+      bad: scores.reverse()[0].questionType,
     };
     return teamResult;
   } catch (error) {
@@ -138,8 +139,8 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
   try {
     const detailData = await prisma.chat.findMany({
       where: {
-        team_id: teamId,
-        question_type: type,
+        teamId: teamId,
+        questionType: type,
       },
       select: {
         nickname: {
@@ -147,13 +148,13 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
             name: true,
           },
         },
-        question_type: true,
-        question_number: true,
+        questionType: true,
+        questionNumber: true,
         answer: true,
         grade: true,
       },
       orderBy: {
-        question_number: 'asc',
+        questionNumber: 'asc',
       },
     });
     const detailResult = await Promise.all(
@@ -178,20 +179,23 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
   }
 };
 
-const checkUserHappiness = async (userId: number, isCompleted: boolean) => {
+const checkUserHappiness = async (
+  userId: number,
+  checkUserHappinessDto: checkUserHappinessDto,
+) => {
   try {
     const data = await prisma.team_user.update({
       where: {
-        user_id: userId,
+        userId: userId,
       },
       data: {
-        is_completed: isCompleted,
+        isCompleted: checkUserHappinessDto.isCompleted,
       },
     });
 
     const result = {
-      userId: data.user_id,
-      completed: data.is_completed,
+      userId: data.userId,
+      completed: data.isCompleted,
     };
 
     return result;

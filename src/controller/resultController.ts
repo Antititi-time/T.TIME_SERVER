@@ -1,3 +1,4 @@
+import { checkUserHappinessDto } from './../interfaces/DTO';
 import { Request, Response } from 'express';
 import { message, statusCode } from '../constants';
 import { fail, success } from '../constants/util';
@@ -141,10 +142,13 @@ const getTeamDetailResult = async (req: Request, res: Response) => {
 
 const checkUserHappiness = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const { isCompleted } = req.body;
+  const checkUserHappinessDto: checkUserHappinessDto = req.body;
 
   try {
-    const data = await resultService.checkUserHappiness(+userId, isCompleted);
+    const data = await resultService.checkUserHappiness(
+      +userId,
+      checkUserHappinessDto,
+    );
     if (!data) {
       return res
         .status(statusCode.NOT_FOUND)
