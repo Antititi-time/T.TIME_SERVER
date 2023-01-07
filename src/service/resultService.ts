@@ -161,8 +161,8 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
       detailData.map((data: any) => {
         const result = {
           nickname: data.nickname.name,
-          questionType: data.question_type,
-          questionNumber: data.question_number,
+          questionType: data.questionType,
+          questionNumber: data.questionNumber,
           grade: data.grade,
           answer: data.answer,
         };
