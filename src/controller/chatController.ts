@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { message, statusCode } from '../constants';
 import { fail, success } from '../constants/util';
-import { createAnswerDto } from '../interfaces/createAnswerDto';
+import { createAnswerDto } from '../interfaces/DTO';
 import { slackMessage } from '../modules/returnToSlackMessage';
 import { sendMessageToSlack } from '../modules/slackAPI';
 import { chatService } from '../service';

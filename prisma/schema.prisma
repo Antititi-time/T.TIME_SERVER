@@ -8,17 +8,17 @@ datasource db {
 }
 
 model chat {
-  id              Int      @id(map: "table_name_pkey") @unique @default(autoincrement())
-  user_id         Int
-  question_type   String   @db.VarChar(1)
-  question_number Int
-  answer          String   @db.VarChar(100)
-  grade           Int?
-  createdAt       DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
-  updatedAt       DateTime @updatedAt @db.Date
-  team_id         Int
-  nickname        nickname @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
-  team            team     @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_team_id_fk")
+  id             Int      @id(map: "table_name_pkey") @unique @default(autoincrement())
+  userId         Int
+  questionType   String   @db.VarChar(1)
+  questionNumber Int
+  answer         String   @db.VarChar(100)
+  grade          Int?
+  createdAt      DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt      DateTime @updatedAt @db.Date
+  teamId         Int
+  nickname       nickname @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
+  team           team     @relation(fields: [teamId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_team_id_fk")
 }
 
 model nickname {
@@ -31,20 +31,20 @@ model nickname {
 }
 
 model team {
-  id          Int         @id @unique
-  team_name   String      @db.VarChar(14)
-  team_member Int
-  createdAt   DateTime    @default(dbgenerated("CURRENT_DATE")) @db.Date
-  updatedAt   DateTime    @updatedAt @db.Date
-  chat        chat[]
-  team_user   team_user[]
+  id         Int         @id @unique
+  teamName   String      @db.VarChar(14)
+  teamMember Int
+  createdAt  DateTime    @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt  DateTime    @updatedAt @db.Date
+  chat       chat[]
+  team_user  team_user[]
 }
 
 model team_user {
-  id           Int      @id @default(autoincrement())
-  user_id      Int      @unique
-  team_id      Int
-  is_completed Boolean
-  nickname     nickname @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
-  team         team     @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_team_id_fk")
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique(map: "team_user_user_id_key")
+  teamId      Int
+  isCompleted Boolean
+  nickname    nickname @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
+  team        team     @relation(fields: [teamId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_team_id_fk")
 }

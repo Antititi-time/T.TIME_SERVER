@@ -1,40 +1,39 @@
+import { createTeamDto, participateTeamDto } from './../interfaces/DTO';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-const makeTeam = async (
-  teamName: string,
-  teamMember: number,
+const makeTeam = async (createTeamDto: createTeamDto, teamId: number) => {
+  try {
+    const team = await prisma.team.create({
+      data: {
+        id: teamId,
+        teamName: createTeamDto.teamName,
+        teamMember: createTeamDto.teamMember,
+      },
+    });
+    return team;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const participateTeam = async (
+  participateTeamDto: participateTeamDto,
   teamId: number,
 ) => {
   try {
-  const team = await prisma.team.create({
-    data: {
-      id: teamId,
-      team_name: teamName,
-      team_member: teamMember,
-    },
-  });
-
-  return team;
-} catch (error) {
-  console.log(error);
-  throw error;
- }
-};
-
-const participateTeam = async (nickname: string, teamId: number) => {
-  try {
     const user = await prisma.nickname.create({
       data: {
-        name: nickname,
+        name: participateTeamDto.nickname,
       },
     });
 
     const joinTeam = await prisma.team_user.create({
       data: {
-        user_id: user.id,
-        team_id: teamId,
-        is_completed: false,
+        userId: user.id,
+        teamId: teamId,
+        isCompleted: false,
       },
     });
 
@@ -45,9 +44,9 @@ const participateTeam = async (nickname: string, teamId: number) => {
     });
 
     const data = {
-      user_id: joinTeam.user_id,
-      team_id: teamInfo?.id,
-      teamName: teamInfo?.team_name,
+      userId: joinTeam.userId,
+      teamId: teamInfo?.id,
+      teamName: teamInfo?.teamName,
     };
 
     return data;
@@ -61,11 +60,11 @@ const checkTeamHappiness = async (teamId: number) => {
   try {
     const checkHappiness = await prisma.team_user.findMany({
       where: {
-        team_id: teamId,
-        is_completed: true,
+        teamId: teamId,
+        isCompleted: true,
       },
       select: {
-        is_completed: true,
+        isCompleted: true,
       },
     });
 
@@ -74,24 +73,24 @@ const checkTeamHappiness = async (teamId: number) => {
         id: teamId,
       },
       select: {
-        team_member: true,
+        teamMember: true,
       },
     });
     if (!teamInfo) {
       return null;
     }
-    if (checkHappiness.length == teamInfo.team_member) {
+    if (checkHappiness.length == teamInfo.teamMember) {
       const result = {
         completed: true,
         completedNumber: checkHappiness.length,
-        totalNumber: teamInfo.team_member,
+        totalNumber: teamInfo.teamMember,
       };
       return result;
     }
     const result = {
       completed: false,
       completedNumber: checkHappiness.length,
-      totalNumber: teamInfo.team_member,
+      totalNumber: teamInfo.teamMember,
     };
     return result;
   } catch (error) {
@@ -99,11 +98,11 @@ const checkTeamHappiness = async (teamId: number) => {
     throw error;
   }
 };
-const duplicateName = async (nickName: string) => {
+const duplicateName = async (participateTeamDto: participateTeamDto) => {
   try {
     const data = await prisma.nickname.findFirst({
       where: {
-        name: nickName,
+        name: participateTeamDto.nickname,
       },
     });
     return data;

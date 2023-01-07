@@ -1,3 +1,4 @@
+import { createTeamDto, participateTeamDto } from './../interfaces/DTO';
 import { sendMessageToSlack } from './../modules/slackAPI';
 import { Request, Response } from 'express';
 import { message, statusCode } from '../constants';
@@ -7,11 +8,11 @@ import { slackMessage } from '../modules/returnToSlackMessage';
 import { teamService } from '../service';
 
 const makeTeam = async (req: Request, res: Response) => {
-  const { teamName, teamMember } = req.body;
+  const createTeamDto: createTeamDto = req.body;
   const teamId = makeTeamId();
 
   try {
-    const data = await teamService.makeTeam(teamName, teamMember, teamId);
+    const data = await teamService.makeTeam(createTeamDto, teamId);
 
     return res
       .status(statusCode.CREATED)
@@ -35,16 +36,16 @@ const makeTeam = async (req: Request, res: Response) => {
 
 const participateTeam = async (req: Request, res: Response) => {
   const { teamId } = req.params;
-  const { nickname } = req.body;
+  const participateTeamDto: participateTeamDto = req.body;
 
   try {
-    const duplicateName = await teamService.duplicateName(nickname);
+    const duplicateName = await teamService.duplicateName(participateTeamDto);
     if (duplicateName) {
       return res
         .status(statusCode.BAD_REQUEST)
         .send(fail(statusCode.BAD_REQUEST, message.DUPLICATE_NAME));
     }
-    const data = await teamService.participateTeam(nickname, +teamId);
+    const data = await teamService.participateTeam(participateTeamDto, +teamId);
 
     if (!data) {
       return res
