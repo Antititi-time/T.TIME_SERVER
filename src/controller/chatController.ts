@@ -10,12 +10,6 @@ const chatAnswer = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const createAnswerDto: createAnswerDto = req.body;
 
-  if (!userId || !createAnswerDto) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
-
   try {
     const data = await chatService.chatAnswer(+userId, createAnswerDto);
 
@@ -43,7 +37,6 @@ const chatAnswer = async (req: Request, res: Response) => {
       );
   }
 };
-
 
 export default {
   chatAnswer,
