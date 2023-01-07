@@ -50,6 +50,12 @@ const participateTeam = async (req: Request, res: Response) => {
   }
 
   try {
+    const duplicateName = await teamService.duplicateName(nickname);
+    if (duplicateName) {
+      return res
+        .status(statusCode.BAD_REQUEST)
+        .send(fail(statusCode.BAD_REQUEST, message.DUPLICATE_NAME));
+    }
     const data = await teamService.participateTeam(nickname, +teamId);
 
     if (!data) {
