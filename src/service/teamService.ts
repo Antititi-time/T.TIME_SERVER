@@ -94,8 +94,22 @@ const checkTeamHappiness = async (teamId: number) => {
     throw error;
   }
 };
+const duplicateName = async (nickName: string) => {
+  try {
+    const data = await prisma.nickname.findFirst({
+      where: {
+        name: nickName,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   makeTeam,
   participateTeam,
   checkTeamHappiness,
+  duplicateName,
 };
