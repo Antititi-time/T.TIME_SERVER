@@ -6,6 +6,7 @@ const makeTeam = async (
   teamMember: number,
   teamId: number,
 ) => {
+  try {
   const team = await prisma.team.create({
     data: {
       id: teamId,
@@ -15,6 +16,10 @@ const makeTeam = async (
   });
 
   return team;
+} catch (error) {
+  console.log(error);
+  throw error;
+ }
 };
 
 const participateTeam = async (nickname: string, teamId: number) => {
