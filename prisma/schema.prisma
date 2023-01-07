@@ -8,34 +8,34 @@ datasource db {
 }
 
 model chat {
-  id              Int       @id(map: "table_name_pkey") @unique @default(autoincrement())
-  user_id         Int?
-  question_type   String?   @db.VarChar(10)
-  question_number Int?
-  answer          String?
+  id              Int      @id(map: "table_name_pkey") @unique @default(autoincrement())
+  user_id         Int
+  question_type   String   @db.VarChar(1)
+  question_number Int
+  answer          String   @db.VarChar(100)
   grade           Int?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  team_id         Int?
-  nickname        nickname? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
-  team            team?     @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_team_id_fk")
+  createdAt       DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt       DateTime @updatedAt @db.Date
+  team_id         Int
+  nickname        nickname @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
+  team            team     @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_team_id_fk")
 }
 
 model nickname {
   id        Int        @id(map: "user_pkey") @unique @default(autoincrement())
-  name      String     @db.VarChar(50)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  name      String     @unique @db.VarChar(4)
+  createdAt DateTime   @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt DateTime   @updatedAt @db.Date
   chat      chat[]
   team_user team_user?
 }
 
 model team {
-  id          Int         @id
-  team_name   String      @db.VarChar(100)
+  id          Int         @id @unique
+  team_name   String      @db.VarChar(14)
   team_member Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime    @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt   DateTime    @updatedAt @db.Date
   chat        chat[]
   team_user   team_user[]
 }
