@@ -19,8 +19,8 @@ const chatAnswer = async (req: Request, res: Response) => {
         .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
     }
     return res
-      .status(statusCode.OK)
-      .send(success(statusCode.OK, message.CHAT_ANSWER_SUCCESS, data));
+      .status(statusCode.CREATED)
+      .send(success(statusCode.CREATED, message.CHAT_ANSWER_SUCCESS, data));
   } catch (error) {
     console.log(error);
     const errorMessage: string = slackMessage(

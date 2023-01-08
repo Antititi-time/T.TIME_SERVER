@@ -8,23 +8,32 @@
     "build": "tsc && node dist",
     "prepare": "husky install",
     "lint": "./node_modules/.bin/eslint .",
-    "prettier": "./node_modules/.bin/prettier ."
+    "prettier": "./node_modules/.bin/prettier .",
+    "test": "jest --silent --runInBand --detectOpenHandles --verbose --forceExit"
   },
   "dependencies": {
     "@prisma/client": "^4.8.0",
     "axios": "^1.2.2",
+    "babel-jest": "^29.3.1",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
-    "prisma": "^4.8.0"
+    "jest": "^29.3.1",
+    "prisma": "^4.8.0",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.15",
     "@types/express-validator": "^3.0.0",
+    "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.31.0",
@@ -33,6 +42,7 @@
     "husky": "^8.0.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.9.4"
   }
 }

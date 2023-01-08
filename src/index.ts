@@ -59,10 +59,5 @@ app.use(function (
   res.render('error');
 });
 
-app.listen(config.port, () => {
-  console.log(`
-        #############################################
-            🛡️ Server listening on port: ${config.port} 🛡️
-        #############################################
-    `);
-});
+
+export default app;
