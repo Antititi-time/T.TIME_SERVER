@@ -62,6 +62,14 @@ const userResult = async (userId: number) => {
 
 const teamResultByType = async (teamId: number) => {
   try {
+    const findTeamMember = await prisma.team.findFirst({
+      where: {
+        id: teamId,
+      },
+      select: {
+        teamMember: true,
+      },
+    });
     const scores = await prisma.chat.groupBy({
       by: ['questionType'],
       where: {
@@ -82,7 +90,9 @@ const teamResultByType = async (teamId: number) => {
     const scoreResult = await Promise.all(
       scores.map((score: any) => {
         const result = {
-          grade: score._sum.grade,
+          grade: Number(
+            (score._sum.grade / findTeamMember!.teamMember).toFixed(1),
+          ),
           questionType: score.questionType,
         };
         return result;
