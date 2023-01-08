@@ -1,6 +1,6 @@
-import app from './index';
+import app from './src/index';
 import dotenv from 'dotenv';
-import config from './config';
+import config from './src/config';
 
 dotenv.config();
 
