@@ -73,6 +73,7 @@ const checkTeamHappiness = async (teamId: number) => {
         id: teamId,
       },
       select: {
+        teamName: true,
         teamMember: true,
       },
     });
@@ -81,6 +82,7 @@ const checkTeamHappiness = async (teamId: number) => {
     }
     if (checkHappiness.length == teamInfo.teamMember) {
       const result = {
+        teamName: teamInfo.teamName,
         completed: true,
         completedNumber: checkHappiness.length,
         totalNumber: teamInfo.teamMember,
@@ -88,6 +90,7 @@ const checkTeamHappiness = async (teamId: number) => {
       return result;
     }
     const result = {
+      teamName: teamInfo.teamName,
       completed: false,
       completedNumber: checkHappiness.length,
       totalNumber: teamInfo.teamMember,
