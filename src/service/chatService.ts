@@ -14,7 +14,6 @@ const chatAnswer = async (userId: number, createAnswerDto: createAnswerDto) => {
         teamId: createAnswerDto.teamId,
       },
     });
-
     return chat;
   } catch (error) {
     console.log(error);

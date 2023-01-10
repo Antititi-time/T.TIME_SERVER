@@ -1,5 +1,7 @@
 import { createTeamDto, participateTeamDto } from './../interfaces/DTO';
 import { PrismaClient } from '@prisma/client';
+import errorGenerator from '../error/errorGenerator';
+import { message, statusCode } from '../constants';
 const prisma = new PrismaClient();
 
 const makeTeam = async (createTeamDto: createTeamDto, teamId: number) => {
@@ -13,7 +15,6 @@ const makeTeam = async (createTeamDto: createTeamDto, teamId: number) => {
     });
     return team;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -51,7 +52,6 @@ const participateTeam = async (
 
     return data;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -67,7 +67,12 @@ const checkTeamHappiness = async (teamId: number) => {
         isCompleted: true,
       },
     });
-
+    if (checkHappiness.length == 0) {
+      throw errorGenerator({
+        msg: message.NOT_FOUND,
+        statusCode: statusCode.NOT_FOUND,
+      });
+    }
     const teamInfo = await prisma.team.findFirst({
       where: {
         id: teamId,
@@ -77,10 +82,7 @@ const checkTeamHappiness = async (teamId: number) => {
         teamMember: true,
       },
     });
-    if (!teamInfo) {
-      return null;
-    }
-    if (checkHappiness.length == teamInfo.teamMember) {
+    if (checkHappiness.length == teamInfo?.teamMember) {
       const result = {
         teamName: teamInfo.teamName,
         completed: true,
@@ -90,14 +92,13 @@ const checkTeamHappiness = async (teamId: number) => {
       return result;
     }
     const result = {
-      teamName: teamInfo.teamName,
+      teamName: teamInfo?.teamName,
       completed: false,
       completedNumber: checkHappiness.length,
-      totalNumber: teamInfo.teamMember,
+      totalNumber: teamInfo?.teamMember,
     };
     return result;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -108,9 +109,14 @@ const duplicateName = async (participateTeamDto: participateTeamDto) => {
         name: participateTeamDto.nickname,
       },
     });
+    if (data) {
+      throw errorGenerator({
+        msg: message.DUPLICATE_NAME,
+        statusCode: statusCode.BAD_REQUEST,
+      });
+    }
     return data;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
