@@ -15,6 +15,7 @@ const allowedOrigins = [
   'https://www.ttime.site',
   'https://ttime.site',
   'https://api.ttime.site',
+  'https://t-time-client.vercel.app/',
   config.ec2URL,
 ];
 const corsOptions = {
