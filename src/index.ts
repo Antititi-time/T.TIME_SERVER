@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import config from './config';
 import cors from 'cors';
 import router from './router';
+import errorHandler from './error/errorHandler';
 
 const app = express(); // express 객체 받아옴
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', router); // use -> 모든 요청
+app.use(errorHandler);
 
 //Error Handler
 interface ErrorType {
