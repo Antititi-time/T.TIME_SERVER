@@ -70,7 +70,7 @@ const getTeamInfo = async (
 
     return res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, message.GET_TEAM_INFO, data));
+      .send(success(statusCode.OK, message.READ_TEAM_INFO, data));
   } catch (error) {
     next(error);
   }
