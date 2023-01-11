@@ -1,9 +1,9 @@
-import { createTeamDto, participateTeamDto } from './../interfaces/DTO';
+import { createTeamDto, participateTeamDto } from '../interfaces/DTO';
 import { Request, Response, NextFunction } from 'express';
-import { message, statusCode } from '../constants';
-import { success } from '../constants/util';
+import { message, statusCode } from '../modules/constants';
+import { success } from '../modules/constants/util';
 import makeTeamId from '../modules/makeTeamId';
-import { teamService } from '../service';
+import { teamService } from '../services';
 
 const makeTeam = async (req: Request, res: Response, next: NextFunction) => {
   const createTeamDto: createTeamDto = req.body;

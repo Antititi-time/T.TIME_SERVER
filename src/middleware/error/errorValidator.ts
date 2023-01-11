@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { statusCode, message } from '../constants';
-import { fail } from '../constants/util';
+import { statusCode, message } from '../../modules/constants';
+import { fail } from '../../modules/constants/util';
 
 const errorValidator = (req: Request, res: Response, next: NextFunction) => {
   const errors: Result<ValidationError> = validationResult(req);

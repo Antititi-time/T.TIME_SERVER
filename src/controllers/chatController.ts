@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { message, statusCode } from '../constants';
-import { fail, success } from '../constants/util';
+import { message, statusCode } from '../modules/constants';
+import { fail, success } from '../modules/constants/util';
 import { createAnswerDto } from '../interfaces/DTO';
-import { chatService } from '../service';
+import { chatService } from '../services';
 
 const chatAnswer = async (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params;

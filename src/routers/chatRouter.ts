@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
-import { chatController } from '../controller';
-import errorValidator from '../middleware/errorValidator';
+import { chatController } from '../controllers';
+import errorValidator from '../middleware/error/errorValidator';
 
 const router: Router = Router();
 

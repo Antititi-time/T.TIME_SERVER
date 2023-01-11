@@ -1,10 +1,10 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
-import config from '../config/index';
-import responseMessage from '../constants/responseMessage';
-import { fail } from '../constants/util';
+import config from '../../config/index';
+import responseMessage from '../../modules/constants/responseMessage';
+import { fail } from '../../modules/constants/util';
 import { ErrorWithStatusCode } from './errorGenerator';
-import { slackMessage } from '../modules/returnToSlackMessage';
-import { sendMessageToSlack } from '../modules/slackAPI';
+import { slackMessage } from '../../modules/returnToSlackMessage';
+import { sendMessageToSlack } from '../../modules/slackAPI';
 
 const generalErrorHandler: ErrorRequestHandler = (
   error: ErrorWithStatusCode,

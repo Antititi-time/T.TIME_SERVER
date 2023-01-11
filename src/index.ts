@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import config from './config';
 import cors from 'cors';
 import router from './router';
-import errorHandler from './error/errorHandler';
+import errorHandler from './middleware/error/errorHandler';
 
 const app = express(); // express 객체 받아옴
 

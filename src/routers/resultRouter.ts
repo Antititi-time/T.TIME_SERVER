@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body, param, query } from 'express-validator';
-import { resultController } from '../controller';
-import errorValidator from '../middleware/errorValidator';
+import { resultController } from '../controllers';
+import errorValidator from '../middleware/error/errorValidator';
 
 const router: Router = Router();
 
