@@ -13,7 +13,7 @@ export default {
   READ_TEAM_SCORE_BY_TYPE_SUCCESS: '팀 결과 항목별 점수 조회 성공',
   READ_TEAM_RESULT_TYPE_SUCCESS: '팀 결과 조회 성공',
   READ_TEAM_DETAIL_RESULT_SUCCESS: '팀 결과 상세 조회 성공',
-  GET_TEAM_INFO: '팀 정보 조회 성공',
+  READ_TEAM_INFO: '팀 정보 조회 성공',
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
