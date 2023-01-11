@@ -26,5 +26,11 @@ router.get(
   errorValidator,
   teamController.checkTeamHappiness,
 );
+router.get(
+  '/:teamId',
+  [param('teamId').notEmpty()],
+  errorValidator,
+  teamController.getTeamInfo,
+);
 
 export default router;

@@ -57,8 +57,28 @@ const checkTeamHappiness = async (
     next(error);
   }
 };
+
+const getTeamInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { teamId } = req.params;
+
+  try {
+    const data = await teamService.getTeamInfo(+teamId);
+
+    return res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, message.READ_TEAM_INFO, data));
+  } catch (error) {
+    next(error);
+  }
+}
+
 export default {
   makeTeam,
   participateTeam,
   checkTeamHappiness,
+  getTeamInfo,
 };
