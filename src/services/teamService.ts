@@ -109,7 +109,7 @@ const duplicateName = async (participateTeamDto: participateTeamDto) => {
         name: participateTeamDto.nickname,
       },
     });
-    if (!data) {
+    if (data) {
       throw errorGenerator({
         msg: message.DUPLICATE_NAME,
         statusCode: statusCode.BAD_REQUEST,
