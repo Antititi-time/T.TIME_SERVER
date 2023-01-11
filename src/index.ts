@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import config from './config';
 import cors from 'cors';
-import router from './router';
+import router from './routers';
 import errorHandler from './middleware/error/errorHandler';
 
 const app = express(); // express 객체 받아옴
@@ -15,7 +15,7 @@ const allowedOrigins = [
   'https://www.ttime.site',
   'https://ttime.site',
   'https://api.ttime.site',
-  'https://t-time-client.vercel.app/',
+  'https://t-time-client.vercel.app',
   config.ec2URL,
 ];
 const corsOptions = {
