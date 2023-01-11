@@ -1,8 +1,8 @@
-import { checkUserHappinessDto } from './../interfaces/DTO';
+import { checkUserHappinessDto } from '../interfaces/DTO';
 import { Request, Response, NextFunction } from 'express';
-import { message, statusCode } from '../constants';
-import { success } from '../constants/util';
-import { resultService } from '../service';
+import { message, statusCode } from '../modules/constants';
+import { success } from '../modules/constants/util';
+import { resultService } from '../services';
 
 const userResult = async (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params;

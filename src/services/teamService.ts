@@ -1,7 +1,7 @@
-import { createTeamDto, participateTeamDto } from './../interfaces/DTO';
+import { createTeamDto, participateTeamDto } from '../interfaces/DTO';
 import { PrismaClient } from '@prisma/client';
-import errorGenerator from '../error/errorGenerator';
-import { message, statusCode } from '../constants';
+import errorGenerator from '../middleware/error/errorGenerator';
+import { message, statusCode } from '../modules/constants';
 const prisma = new PrismaClient();
 
 const makeTeam = async (createTeamDto: createTeamDto, teamId: number) => {

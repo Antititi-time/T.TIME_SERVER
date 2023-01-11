@@ -1,8 +1,8 @@
-import { checkUserHappinessDto } from './../interfaces/DTO';
+import { checkUserHappinessDto } from '../interfaces/DTO';
 import dayjs from 'dayjs';
 import { PrismaClient } from '@prisma/client';
-import errorGenerator from '../error/errorGenerator';
-import { message, statusCode } from '../constants';
+import errorGenerator from '../middleware/error/errorGenerator';
+import { message, statusCode } from '../modules/constants';
 const prisma = new PrismaClient();
 
 const userResult = async (userId: number) => {

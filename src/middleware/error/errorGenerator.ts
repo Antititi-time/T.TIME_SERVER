@@ -1,4 +1,4 @@
-import message from '../constants/responseMessage';
+import message from '../../modules/constants/responseMessage';
 
 type statusMessage = {
   [key: number]: string;
