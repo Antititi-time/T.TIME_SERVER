@@ -102,11 +102,23 @@ const checkTeamHappiness = async (teamId: number) => {
     throw error;
   }
 };
-const duplicateName = async (participateTeamDto: participateTeamDto) => {
+const duplicateName = async (
+  teamId: number,
+  participateTeamDto: participateTeamDto,
+) => {
   try {
-    const data = await prisma.nickname.findFirst({
+    const data = await prisma.team_user.findFirst({
       where: {
-        name: participateTeamDto.nickname,
+        AND: [
+          {
+            teamId: teamId,
+          },
+          {
+            nickname: {
+              name: participateTeamDto.nickname,
+            },
+          },
+        ],
       },
     });
     if (data) {
@@ -130,14 +142,14 @@ const getTeamInfo = async (teamId: number) => {
       select: {
         id: true,
         teamName: true,
-        teamMember: true
-      }
+        teamMember: true,
+      },
     });
     return data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export default {
   makeTeam,

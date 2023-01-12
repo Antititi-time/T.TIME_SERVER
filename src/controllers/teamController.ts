@@ -29,7 +29,7 @@ const participateTeam = async (
   const participateTeamDto: participateTeamDto = req.body;
 
   try {
-    await teamService.duplicateName(participateTeamDto);
+    await teamService.duplicateName(+teamId, participateTeamDto);
     const data = await teamService.participateTeam(participateTeamDto, +teamId);
 
     return res
@@ -58,11 +58,7 @@ const checkTeamHappiness = async (
   }
 };
 
-const getTeamInfo = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const getTeamInfo = async (req: Request, res: Response, next: NextFunction) => {
   const { teamId } = req.params;
 
   try {
@@ -74,7 +70,7 @@ const getTeamInfo = async (
   } catch (error) {
     next(error);
   }
-}
+};
 
 export default {
   makeTeam,
