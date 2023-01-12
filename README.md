@@ -3,11 +3,17 @@
 
 T.time은 **협업에서 발생하는 다양한 감정들을 솔직하게 공유하며 나와 팀 함께 발전할 수는 없을까?** 라는 고민에서 시작되었습니다. 다양한 질문을 통해 나와 팀의 감정을 살피고 건강한 팀 문화를 만들어가도록 돕는 서비스입니다. 🙂
 
+## ✅ 서비스 핵심 기능
+
+<img src= "https://user-images.githubusercontent.com/82744423/212005999-50c153ba-67fb-458f-afcb-0448c728d2d1.png" width = 600px>
+
+
 ## 🧑‍💻 Server Developer
 |강민재|임채영|
 |:-:|:-:|
 |<img src="https://avatars.githubusercontent.com/u/82744423?v=4" width="200px" />|<img src="https://avatars.githubusercontent.com/u/102947253?v=4" width="200px" />|
 |[@m1njae](https://github.com/m1njae)|[@cha2y0oung](https://github.com/cha2y0ung)|
+| 프로젝트 초기 세팅<br>DB 설계<br>API 구현<br>테스트 코드 작성<br>https 설정|AWS 세팅<br>DB 설계<br>API 구현<br>테스트 코드 작성|
 
 
 ## ☕ T.TIME API Docs
@@ -18,13 +24,14 @@ T.time은 **협업에서 발생하는 다양한 감정들을 솔직하게 공유
 | :------------------------------------: | :------------: | :-------: |
 |              초대장 생성                |    임채영     |    ✅     |
 |          초대장으로 팀 입장             |     강민재     |    ✅    |
-|         해피니스 체크 답변 받기         |    임채영      |           |
-|         개인 결과 뷰 조회               |    임채영     |            |
-|          팀 해피니스 체크 유무          |     강민재     |        |
-|        개인 해피니스 체크 완료          |     임채영     |         |
-|           팀 상세 결과 조회             |     강민재     |         |
-|             팀 결과 조회                |    강민재     |        |
-|           팀 결과 항목별 점수 조회        |     강민재     |         |
+|         해피니스 체크 답변 받기         |    임채영      |    ✅       |
+|         개인 결과 뷰 조회               |    임채영     |     ✅       |
+|          팀 해피니스 체크 유무          |     강민재     |    ✅    |
+|        개인 해피니스 체크 완료          |     임채영     |    ✅     |
+|           팀 상세 결과 조회             |     강민재     |    ✅     |
+|             팀 결과 조회                |    강민재     |    ✅    |
+|           팀 결과 항목별 점수 조회       |     강민재     |    ✅     |
+|           팀 정보 조회                   |     임채영     |    ✅     |
 
 
 ## 📍 Code Convention
@@ -161,8 +168,12 @@ feature, fix 이하 번호는 issue 번호에 맞게 생성
 | :---------: | :----------------------: |
 |    main     |      초기 세팅 존재      |
 |   develop   |     구현 완료 브랜치     |
-| feature\_#  | 이슈 별 기능 구현 브랜치 |
-|   fix\_#    |   이슈 별 픽스 브랜치    |
+| feature\_/#  | 이슈 별 기능 구현 브랜치 |
+|   fix\_/#    |   이슈 별 픽스 브랜치    |
+
+## 📄 T.TIME ERD
+
+<img src="https://user-images.githubusercontent.com/82744423/212005846-354db590-6d45-4056-8517-e069564fd64f.png" width="400px" /><br>
 
 ## 📁 Project Foldering
 
@@ -171,20 +182,97 @@ feature, fix 이하 번호는 issue 번호에 맞게 생성
 
 📂T.TIME_SERVER
 └── 📂prisma
+         ├── schema.prisma
 └── 📂src
     ├── 📂config
-    ├── 📂constants
+            ├── index.ts
     ├── 📂controller
-    ├── 📂interface
+            ├── chatController.ts
+            ├── index.ts
+            ├── resultController.ts
+            ├── teamController.ts
+    ├── 📂interfaces
+            ├── DTO.ts
+    ├── 📂middleware
+            ├── 📂error
+                    ├── errorGenerator.ts
+                    ├── errorHandler.ts
+                    ├── errorValidator.ts
     ├── 📂modules
+            ├── 📂constants
+                     ├── index.ts
+                     ├── responseMessage.ts
+                     ├── statusCode.ts
+                     ├── util.ts
+            ├── makeTeamId.ts
+            ├── returnToSlackMessage.ts
+            ├── slackAPI.ts
     ├── 📂router
+            ├── chatRouter.ts
+            ├── index.ts
+            ├── resultRouter.ts
+            ├── teamRouter.ts
     ├── 📂service
+            ├── chatService.ts
+            ├── index.ts
+            ├── resultService.ts
+            ├── teamService.ts
     ├── index.ts
 ```
-## 📄 T.TIME ERD
-<img src="https://user-images.githubusercontent.com/82744423/210382927-0bc412d5-c6e2-4ed7-9c63-36c6bca799e9.png" width="400px" /><br>
+## 🔎 Dependencies Module
 
-
+```json
+{
+  "name": "T-Time",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc && node dist",
+    "prepare": "husky install",
+    "lint": "./node_modules/.bin/eslint .",
+    "prettier": "./node_modules/.bin/prettier .",
+    "test": "jest --silent --runInBand --detectOpenHandles --verbose --forceExit"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.8.0",
+    "axios": "^1.2.2",
+    "babel-jest": "^29.3.1",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jest": "^29.3.1",
+    "prisma": "^4.8.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/express-validator": "^3.0.0",
+    "@types/jest": "^29.2.5",
+    "@types/node": "^18.11.18",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
+  }
+}
+```
+## ⚙️ Server Architecture
+<img src= "https://user-images.githubusercontent.com/82744423/212049109-5520d587-b8b8-41a8-b53d-13f2461f358b.jpg" width= "800px">
 
 
 
