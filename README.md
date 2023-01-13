@@ -3,9 +3,6 @@
 
 T.time은 **협업에서 발생하는 다양한 감정들을 솔직하게 공유하며 나와 팀 함께 발전할 수는 없을까?** 라는 고민에서 시작되었습니다. 다양한 질문을 통해 나와 팀의 감정을 살피고 건강한 팀 문화를 만들어가도록 돕는 서비스입니다. 🙂
 
-## 🔗 서비스 URL
-https://www.ttime.site
-
 ## ✅ 서비스 핵심 기능
 
 <img src= "https://user-images.githubusercontent.com/82744423/212005999-50c153ba-67fb-458f-afcb-0448c728d2d1.png" width = 600px>
