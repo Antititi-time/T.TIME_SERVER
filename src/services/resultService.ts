@@ -12,7 +12,7 @@ const userResult = async (userId: number) => {
         userId: userId,
       },
       select: {
-        nickname: true,
+        user: true,
         team: true,
         teamId: true,
       },
@@ -49,7 +49,7 @@ const userResult = async (userId: number) => {
 
     const data = {
       date: dayjs().format('YYYY-MM-DD'),
-      nickname: findTeam?.nickname.name,
+      nickname: findTeam?.user.name,
       teamName: findTeam?.team.teamName,
       result: scoreResult,
     };
@@ -154,7 +154,7 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
         questionType: type,
       },
       select: {
-        nickname: {
+        user: {
           select: {
             name: true,
           },
@@ -171,7 +171,7 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
     const detailResult = await Promise.all(
       detailData.map((data: any) => {
         const result = {
-          nickname: data.nickname.name,
+          nickname: data.user.name,
           questionType: data.questionType,
           questionNumber: data.questionNumber,
           grade: data.grade,
