@@ -24,7 +24,7 @@ const participateTeam = async (
   teamId: number,
 ) => {
   try {
-    const user = await prisma.nickname.create({
+    const user = await prisma.user.create({
       data: {
         name: participateTeamDto.nickname,
       },

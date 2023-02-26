@@ -15,7 +15,7 @@ const allowedOrigins = [
   'https://www.ttime.site',
   'https://ttime.site',
   'https://api.ttime.site',
-  'https://t-time-client.vercel.app',
+  'https://t-time.vercel.app',
   config.ec2URL,
 ];
 const corsOptions = {
@@ -62,17 +62,17 @@ app.use(function (
   res.render('error');
 });
 
-// app
-//  .listen(config.port, () => {
-//     console.log(`
-//     ################################################
-//           🛡️  Server listening on port: ${config.port} 🛡️
-//     ################################################
-//   `);
-//   })
-//   .on('error', (err) => {
-//     console.error(err);
-//     process.exit(1);
-//   });
+app
+  .listen(config.port, () => {
+    console.log(`
+    ################################################
+          🛡️  Server listening on port: ${config.port} 🛡️
+    ################################################
+  `);
+  })
+  .on('error', (err) => {
+    console.error(err);
+    process.exit(1);
+  });
 
 export default app;
