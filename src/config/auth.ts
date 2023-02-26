@@ -14,7 +14,7 @@ const kakaoAuth = async (kakaoAccessToken: string) => {
     });
     const userId = user.data.id.toString();
     if (!userId) return exceptionMessage.INVALID_USER;
-    const name = user.data.kakao_account.name;
+    const name = user.data.kakao_account.profile.nickname;
     const email = user.data.kakao_account.email;
 
     const kakaoUser: SocialUser = {
