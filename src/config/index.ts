@@ -23,4 +23,9 @@ export default {
    * EC2
    */
   ec2URL: process.env.EC2_URL as string,
+  /**
+   * JWT
+   */
+  jwtSecret: process.env.JWT_SECRET as string,
+  jwtAlgo: process.env.JWT_ALGORITHM as string,
 };
