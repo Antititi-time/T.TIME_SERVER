@@ -234,12 +234,12 @@ const makePersonalResult = async (
         userId: userId,
         date: makePersonalResultDto.date,
         teamName: makePersonalResultDto.teamName,
-        character: makePersonalResultDto.character,
-        questionTypeA: makePersonalResultDto.questionTypeA,
-        questionTypeB: makePersonalResultDto.questionTypeB,
-        questionTypeC: makePersonalResultDto.questionTypeC,
-        questionTypeD: makePersonalResultDto.questionTypeD,
-        questionTypeE: makePersonalResultDto.questionTypeE
+        result: makePersonalResultDto.result,
+        collaboration: makePersonalResultDto.collaboration,
+        personalLife: makePersonalResultDto.personalLife,
+        health: makePersonalResultDto.health,
+        development: makePersonalResultDto.development,
+        motivation: makePersonalResultDto.motivation
       }
     });
     return data;

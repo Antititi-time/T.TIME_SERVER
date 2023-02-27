@@ -108,7 +108,7 @@ const makePersonalResult = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { userId } = req.params;
+  const userId = res.locals.JwtPayload;
   const makePersonalResultDto: makePersonalResultDto = req.body;
 
   try {

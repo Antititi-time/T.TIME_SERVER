@@ -26,10 +26,10 @@ export interface responseAnswerDto extends createAnswerDto {
 export interface makePersonalResultDto {
   date: string;
   teamName: string;
-  character: string;
-  questionTypeA: number;
-  questionTypeB: number;
-  questionTypeC: number;
-  questionTypeD: number;
-  questionTypeE: number;
+  result: string;
+  collaboration: number;
+  personalLife: number;
+  health: number;
+  development: number;
+  motivation: number;
 }

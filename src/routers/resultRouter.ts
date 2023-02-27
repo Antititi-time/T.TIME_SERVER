@@ -36,8 +36,7 @@ router.patch(
   resultController.checkUserHappiness,
 );
 router.post(
-  '/:userId',
-  [param('userId').notEmpty()],
+  '/personal',
   errorValidator,
   resultController.makePersonalResult,
 )
