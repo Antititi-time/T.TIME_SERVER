@@ -1,4 +1,4 @@
-import { checkUserHappinessDto } from '../interfaces/DTO';
+import { checkUserHappinessDto, makePersonalResultDto } from '../interfaces/DTO';
 import dayjs from 'dayjs';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
@@ -223,10 +223,37 @@ const checkUserHappiness = async (
   }
 };
 
+
+const makePersonalResult = async (
+  userId: number,
+  makePersonalResultDto: makePersonalResultDto,
+) => {
+  try {
+    const data = await prisma.personal_result.create({
+      data : {
+        userId: userId,
+        date: makePersonalResultDto.date,
+        teamName: makePersonalResultDto.teamName,
+        character: makePersonalResultDto.character,
+        questionTypeA: makePersonalResultDto.questionTypeA,
+        questionTypeB: makePersonalResultDto.questionTypeB,
+        questionTypeC: makePersonalResultDto.questionTypeC,
+        questionTypeD: makePersonalResultDto.questionTypeD,
+        questionTypeE: makePersonalResultDto.questionTypeE
+      }
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export default {
   userResult,
   teamResultByType,
   getResultByType,
   getTeamDetailResult,
   checkUserHappiness,
+  makePersonalResult,
 };

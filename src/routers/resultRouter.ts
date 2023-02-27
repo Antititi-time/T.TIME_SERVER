@@ -35,5 +35,11 @@ router.patch(
   errorValidator,
   resultController.checkUserHappiness,
 );
+router.post(
+  '/:userId',
+  [param('userId').notEmpty()],
+  errorValidator,
+  resultController.makePersonalResult,
+)
 
 export default router;

@@ -22,3 +22,14 @@ export interface createAnswerDto {
 export interface responseAnswerDto extends createAnswerDto {
   id: number;
 }
+
+export interface makePersonalResultDto {
+  date: string;
+  teamName: string;
+  character: string;
+  questionTypeA: number;
+  questionTypeB: number;
+  questionTypeC: number;
+  questionTypeD: number;
+  questionTypeE: number;
+}
