@@ -22,6 +22,7 @@ export default {
   READ_TEAM_RESULT_TYPE_SUCCESS: '팀 결과 조회 성공',
   READ_TEAM_DETAIL_RESULT_SUCCESS: '팀 결과 상세 조회 성공',
   READ_TEAM_INFO: '팀 정보 조회 성공',
+  MAKE_PERSONAL_RESULT_SUCCESS: '개인 결과 저장 성공',
 
   // 토큰
   CREATE_TOKEN_SUCCESS: '토큰 재발급 성공',
