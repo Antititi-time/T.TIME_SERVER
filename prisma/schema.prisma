@@ -34,7 +34,7 @@ model team {
 
 model team_user {
   id          Int     @id @default(autoincrement())
-  userId      Int     @unique(map: "team_user_user_id_key")
+  userId      Int
   teamId      Int
   isCompleted Boolean
   user        user    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
@@ -42,14 +42,14 @@ model team_user {
 }
 
 model user {
-  id           Int        @id @unique(map: "nickname_id_key") @default(autoincrement())
-  name         String     @db.VarChar(4)
-  createdAt    DateTime   @default(dbgenerated("CURRENT_DATE")) @db.Date
-  updatedAt    DateTime?  @default(dbgenerated("CURRENT_DATE")) @db.Date
-  social       String?    @db.VarChar(10)
-  snsId        String?    @db.VarChar
-  email        String?    @db.VarChar(40)
-  refreshToken String?    @db.VarChar(200)
+  id           Int         @id @unique(map: "nickname_id_key") @default(autoincrement())
+  name         String      @db.VarChar(4)
+  createdAt    DateTime    @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt    DateTime?   @default(dbgenerated("CURRENT_DATE")) @db.Date
+  social       String?     @db.VarChar(10)
+  snsId        String?     @db.VarChar
+  email        String?     @db.VarChar(40)
+  refreshToken String?     @db.VarChar(200)
   chat         chat[]
-  team_user    team_user?
+  team_user    team_user[]
 }

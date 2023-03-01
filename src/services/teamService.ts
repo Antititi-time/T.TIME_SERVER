@@ -4,13 +4,18 @@ import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
 const prisma = new PrismaClient();
 
-const makeTeam = async (createTeamDto: createTeamDto, teamId: number) => {
+const makeTeam = async (
+  userId: number,
+  createTeamDto: createTeamDto,
+  teamId: number,
+) => {
   try {
     const team = await prisma.team.create({
       data: {
         id: teamId,
         teamName: createTeamDto.teamName,
         teamMember: createTeamDto.teamMember,
+        creatorId: userId,
       },
     });
     return team;

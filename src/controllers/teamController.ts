@@ -6,11 +6,12 @@ import makeTeamId from '../modules/makeTeamId';
 import { teamService } from '../services';
 
 const makeTeam = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = res.locals.JwtPayload;
   const createTeamDto: createTeamDto = req.body;
   const teamId = makeTeamId();
 
   try {
-    const data = await teamService.makeTeam(createTeamDto, teamId);
+    const data = await teamService.makeTeam(+userId, createTeamDto, teamId);
 
     return res
       .status(statusCode.CREATED)
