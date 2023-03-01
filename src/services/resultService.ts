@@ -197,12 +197,14 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
 
 const checkUserHappiness = async (
   userId: number,
+  teamId: number,
   checkUserHappinessDto: checkUserHappinessDto,
 ) => {
   try {
-    const data = await prisma.team_user.update({
+    const data = await prisma.team_user.updateMany({
       where: {
-        userId: userId,
+        userId,
+        teamId,
       },
       data: {
         isCompleted: checkUserHappinessDto.isCompleted,
@@ -216,8 +218,8 @@ const checkUserHappiness = async (
     }
 
     const result = {
-      userId: data.userId,
-      completed: data.isCompleted,
+      userId: userId,
+      isCompleted: checkUserHappinessDto.isCompleted,
     };
 
     return result;

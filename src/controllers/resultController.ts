@@ -90,12 +90,14 @@ const checkUserHappiness = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { userId } = req.params;
+  const userId = res.locals.JwtPayload;
+  const { teamId } = req.params;
   const checkUserHappinessDto: checkUserHappinessDto = req.body;
 
   try {
     const data = await resultService.checkUserHappiness(
       +userId,
+      +teamId,
       checkUserHappinessDto,
     );
     return res
