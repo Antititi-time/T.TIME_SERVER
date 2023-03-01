@@ -77,4 +77,48 @@ const updateRefreshToken = async (id: number, refreshToken: string) => {
   }
 };
 
-export default { getSocialUser, findUserById, signUpUser, updateRefreshToken };
+const getMyPage = async (userId: number) => {
+  try {
+    const userInfo = await prisma.team_user.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        updatedAt: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        team: {
+          select: {
+            teamName: true,
+          },
+        },
+      },
+    });
+    const projectArray = await Promise.all(
+      userInfo.map((data: any) => {
+        const result = {
+          date: data.updatedAt,
+          teamName: data.team.teamName,
+        };
+        return result;
+      }),
+    );
+    const data = {
+      userName: userInfo[0].user.name,
+      history: projectArray,
+    };
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+export default {
+  getSocialUser,
+  findUserById,
+  signUpUser,
+  updateRefreshToken,
+  getMyPage,
+};

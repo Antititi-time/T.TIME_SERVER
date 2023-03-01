@@ -86,4 +86,16 @@ const getSocialUser = async (
   }
 };
 
-export default { getSocialUser };
+const getMyPage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // const userId = res.locals.JwtPayload;
+    const { userId } = req.params;
+    const data = await userService.getMyPage(+userId);
+    return res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, message.READ_MYPAGE_SUCCESS, data));
+  } catch (error) {
+    next(error);
+  }
+};
+export default { getSocialUser, getMyPage };

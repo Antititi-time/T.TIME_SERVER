@@ -35,9 +35,11 @@ model team {
 model team_user {
   userId      Int
   teamId      Int
-  isCompleted Boolean @default(false)
-  team        team    @relation(fields: [teamId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_team_id_fk")
-  user        user    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
+  isCompleted Boolean   @default(false)
+  createdAt   DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt   DateTime? @updatedAt @db.Date
+  user        user      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
+  team        team      @relation(fields: [teamId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_team_id_fk")
 
   @@id([userId, teamId], map: "team_user_pk")
   @@unique([userId, teamId])
