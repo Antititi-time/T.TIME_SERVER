@@ -35,10 +35,5 @@ router.patch(
   errorValidator,
   resultController.checkUserHappiness,
 );
-router.post(
-  '/personal',
-  errorValidator,
-  resultController.makePersonalResult,
-)
 
 export default router;
