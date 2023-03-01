@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { body, param, query } from 'express-validator';
 import { resultController } from '../controllers';
+import auth from '../middleware/auth';
 import errorValidator from '../middleware/error/errorValidator';
 
 const router: Router = Router();
@@ -30,15 +31,11 @@ router.get(
   resultController.getTeamDetailResult,
 );
 router.patch(
-  '/:userId',
-  [param('userId').notEmpty(), body('isCompleted').notEmpty()],
+  '/:teamId',
+  [param('teamId').notEmpty(), body('isCompleted').notEmpty()],
   errorValidator,
+  auth,
   resultController.checkUserHappiness,
 );
-router.post(
-  '/personal',
-  errorValidator,
-  resultController.makePersonalResult,
-)
 
 export default router;

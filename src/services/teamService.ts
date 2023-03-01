@@ -1,16 +1,29 @@
-import { createTeamDto, participateTeamDto } from '../interfaces/DTO';
+import { createTeamDto } from '../interfaces/DTO';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
 const prisma = new PrismaClient();
 
-const makeTeam = async (createTeamDto: createTeamDto, teamId: number) => {
+const makeTeam = async (
+  userId: number,
+  createTeamDto: createTeamDto,
+  teamId: number,
+) => {
   try {
     const team = await prisma.team.create({
       data: {
         id: teamId,
         teamName: createTeamDto.teamName,
         teamMember: createTeamDto.teamMember,
+        creatorId: userId,
+      },
+    });
+
+    //방장 추가
+    await prisma.team_user.create({
+      data: {
+        userId,
+        teamId,
       },
     });
     return team;
@@ -19,22 +32,12 @@ const makeTeam = async (createTeamDto: createTeamDto, teamId: number) => {
   }
 };
 
-const participateTeam = async (
-  participateTeamDto: participateTeamDto,
-  teamId: number,
-) => {
+const participateTeam = async (userId: number, teamId: number) => {
   try {
-    const user = await prisma.user.create({
+    await prisma.team_user.create({
       data: {
-        name: participateTeamDto.nickname,
-      },
-    });
-
-    const joinTeam = await prisma.team_user.create({
-      data: {
-        userId: user.id,
-        teamId: teamId,
-        isCompleted: false,
+        userId,
+        teamId,
       },
     });
 
@@ -45,8 +48,8 @@ const participateTeam = async (
     });
 
     const data = {
-      userId: joinTeam.userId,
-      teamId: teamInfo?.id,
+      userId: userId,
+      teamId: teamId,
       teamName: teamInfo?.teamName,
     };
 
@@ -102,36 +105,6 @@ const checkTeamHappiness = async (teamId: number) => {
     throw error;
   }
 };
-const duplicateName = async (
-  teamId: number,
-  participateTeamDto: participateTeamDto,
-) => {
-  try {
-    const data = await prisma.team_user.findFirst({
-      where: {
-        AND: [
-          {
-            teamId: teamId,
-          },
-          {
-            nickname: {
-              name: participateTeamDto.nickname,
-            },
-          },
-        ],
-      },
-    });
-    if (data) {
-      throw errorGenerator({
-        msg: message.DUPLICATE_NAME,
-        statusCode: statusCode.BAD_REQUEST,
-      });
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
 
 const getTeamInfo = async (teamId: number) => {
   try {
@@ -155,6 +128,5 @@ export default {
   makeTeam,
   participateTeam,
   checkTeamHappiness,
-  duplicateName,
   getTeamInfo,
 };

@@ -17,7 +17,7 @@ model chat {
   createdAt      DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
   updatedAt      DateTime @updatedAt @db.Date
   teamId         Int
-  user           nickname @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
+  user           user     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "chat_nickname_id_fk")
   team           team     @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_team_id_fk")
 }
 
@@ -33,37 +33,27 @@ model team {
 }
 
 model team_user {
-  id          Int      @id @default(autoincrement())
-  userId      Int      @unique(map: "team_user_user_id_key")
+  userId      Int
   teamId      Int
-  isCompleted Boolean
-  user        nickname @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
-  team        team     @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "team_user_team_id_fk")
+  isCompleted Boolean   @default(false)
+  createdAt   DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt   DateTime? @updatedAt @db.Date
+  user        user      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
+  team        team      @relation(fields: [teamId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_team_id_fk")
+
+  @@id([userId, teamId], map: "team_user_pk")
+  @@unique([userId, teamId])
 }
 
-model personal_result {
-  id            Int     @id @default(autoincrement())
-  userId        Int?
-  teamId        Int?
-  date          String? @db.Char(1)
-  result        String? @db.Char(1)
-  collaboration Int?
-  personalLife  Int?
-  health        Int?
-  development   Int?
-  motivation    Int?
-  teamName      String? @db.Char(1)
-}
-
-model nickname {
-  id           Int        @id(map: "user_pkey") @unique @default(autoincrement())
-  name         String     @db.VarChar(4)
-  createdAt    DateTime   @default(dbgenerated("CURRENT_DATE")) @db.Date
-  updatedAt    DateTime?  @default(dbgenerated("CURRENT_DATE")) @db.Date
-  social       String?    @db.VarChar(10)
-  snsId        String?    @db.VarChar
-  email        String?    @db.VarChar(40)
-  refreshToken String?    @db.VarChar(200)
+model user {
+  id           Int         @id @unique(map: "nickname_id_key") @default(autoincrement())
+  name         String      @db.VarChar(4)
+  createdAt    DateTime    @default(dbgenerated("CURRENT_DATE")) @db.Date
+  updatedAt    DateTime?   @default(dbgenerated("CURRENT_DATE")) @db.Date
+  social       String?     @db.VarChar(10)
+  snsId        String?     @db.VarChar
+  email        String?     @db.VarChar(40)
+  refreshToken String?     @db.VarChar(200)
   chat         chat[]
-  team_user    team_user?
+  team_user    team_user[]
 }

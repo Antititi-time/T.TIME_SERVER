@@ -1,4 +1,7 @@
-import { checkUserHappinessDto, makePersonalResultDto } from '../interfaces/DTO';
+import {
+  checkUserHappinessDto,
+  makePersonalResultDto,
+} from '../interfaces/DTO';
 import dayjs from 'dayjs';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
@@ -194,12 +197,14 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
 
 const checkUserHappiness = async (
   userId: number,
+  teamId: number,
   checkUserHappinessDto: checkUserHappinessDto,
 ) => {
   try {
-    const data = await prisma.team_user.update({
+    const data = await prisma.team_user.updateMany({
       where: {
-        userId: userId,
+        userId,
+        teamId,
       },
       data: {
         isCompleted: checkUserHappinessDto.isCompleted,
@@ -213,8 +218,8 @@ const checkUserHappiness = async (
     }
 
     const result = {
-      userId: data.userId,
-      completed: data.isCompleted,
+      userId: userId,
+      isCompleted: checkUserHappinessDto.isCompleted,
     };
 
     return result;
@@ -223,37 +228,10 @@ const checkUserHappiness = async (
   }
 };
 
-
-const makePersonalResult = async (
-  userId: number,
-  makePersonalResultDto: makePersonalResultDto,
-) => {
-  try {
-    const data = await prisma.personal_result.create({
-      data : {
-        userId: userId,
-        date: makePersonalResultDto.date,
-        teamName: makePersonalResultDto.teamName,
-        result: makePersonalResultDto.result,
-        collaboration: makePersonalResultDto.collaboration,
-        personalLife: makePersonalResultDto.personalLife,
-        health: makePersonalResultDto.health,
-        development: makePersonalResultDto.development,
-        motivation: makePersonalResultDto.motivation
-      }
-    });
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
-
 export default {
   userResult,
   teamResultByType,
   getResultByType,
   getTeamDetailResult,
   checkUserHappiness,
-  makePersonalResult,
 };

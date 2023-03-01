@@ -1,4 +1,7 @@
-import { checkUserHappinessDto, makePersonalResultDto } from '../interfaces/DTO';
+import {
+  checkUserHappinessDto,
+  makePersonalResultDto,
+} from '../interfaces/DTO';
 import { Request, Response, NextFunction } from 'express';
 import { message, statusCode } from '../modules/constants';
 import { success } from '../modules/constants/util';
@@ -87,12 +90,14 @@ const checkUserHappiness = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { userId } = req.params;
+  const userId = res.locals.JwtPayload;
+  const { teamId } = req.params;
   const checkUserHappinessDto: checkUserHappinessDto = req.body;
 
   try {
     const data = await resultService.checkUserHappiness(
       +userId,
+      +teamId,
       checkUserHappinessDto,
     );
     return res
@@ -103,33 +108,10 @@ const checkUserHappiness = async (
   }
 };
 
-const makePersonalResult = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const userId = res.locals.JwtPayload;
-  const makePersonalResultDto: makePersonalResultDto = req.body;
-
-  try {
-    const data = await resultService.makePersonalResult(
-      +userId,
-      makePersonalResultDto,
-    );
-    return res
-      .status(statusCode.OK)
-      .send(success(statusCode.OK, message.MAKE_PERSONAL_RESULT_SUCCESS, data));
-  } catch (error) {
-    next(error);
-  }
-};
-
-
 export default {
   userResult,
   teamResultByType,
   getTeamResultType,
   getTeamDetailResult,
   checkUserHappiness,
-  makePersonalResult,
 };

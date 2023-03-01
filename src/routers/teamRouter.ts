@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { teamController } from '../controllers';
+import auth from '../middleware/auth';
 import errorValidator from '../middleware/error/errorValidator';
 
 const router: Router = Router();
@@ -8,10 +9,11 @@ const router: Router = Router();
 router.post(
   '/',
   [
-    body('teamName').notEmpty().isLength({ max: 14 }),
-    body('teamMember').notEmpty(),
+    body('teamName').isString().notEmpty().isLength({ max: 14 }),
+    body('teamMember').isNumeric().notEmpty(),
   ],
   errorValidator,
+  auth,
   teamController.makeTeam,
 );
 router.post(

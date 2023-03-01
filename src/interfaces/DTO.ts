@@ -3,10 +3,6 @@ export interface createTeamDto {
   teamMember: number;
 }
 
-export interface participateTeamDto {
-  nickname: string;
-}
-
 export interface checkUserHappinessDto {
   isCompleted: boolean;
 }

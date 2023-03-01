@@ -1,4 +1,4 @@
-import { createTeamDto, participateTeamDto } from '../interfaces/DTO';
+import { createTeamDto } from '../interfaces/DTO';
 import { Request, Response, NextFunction } from 'express';
 import { message, statusCode } from '../modules/constants';
 import { success } from '../modules/constants/util';
@@ -6,11 +6,12 @@ import makeTeamId from '../modules/makeTeamId';
 import { teamService } from '../services';
 
 const makeTeam = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = res.locals.JwtPayload;
   const createTeamDto: createTeamDto = req.body;
   const teamId = makeTeamId();
 
   try {
-    const data = await teamService.makeTeam(createTeamDto, teamId);
+    const data = await teamService.makeTeam(+userId, createTeamDto, teamId);
 
     return res
       .status(statusCode.CREATED)
@@ -25,12 +26,11 @@ const participateTeam = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const userId = res.locals.JwtPayload;
   const { teamId } = req.params;
-  const participateTeamDto: participateTeamDto = req.body;
 
   try {
-    await teamService.duplicateName(+teamId, participateTeamDto);
-    const data = await teamService.participateTeam(participateTeamDto, +teamId);
+    const data = await teamService.participateTeam(+userId, +teamId);
 
     return res
       .status(statusCode.OK)

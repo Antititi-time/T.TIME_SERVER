@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { userController } from '../controllers';
+import auth from '../middleware/auth';
 import errorValidator from '../middleware/error/errorValidator';
 
 const router: Router = Router();
@@ -10,5 +11,7 @@ router.post('/auth', [
   errorValidator,
   userController.getSocialUser,
 ]);
+
+router.get('/myPage', auth, userController.getMyPage);
 
 export default router;
