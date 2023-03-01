@@ -18,28 +18,26 @@ const makeTeam = async (
         creatorId: userId,
       },
     });
+
+    //방장 추가
+    await prisma.team_user.create({
+      data: {
+        userId,
+        teamId,
+      },
+    });
     return team;
   } catch (error) {
     throw error;
   }
 };
 
-const participateTeam = async (
-  participateTeamDto: participateTeamDto,
-  teamId: number,
-) => {
+const participateTeam = async (userId: number, teamId: number) => {
   try {
-    const user = await prisma.user.create({
+    await prisma.team_user.create({
       data: {
-        name: participateTeamDto.nickname,
-      },
-    });
-
-    const joinTeam = await prisma.team_user.create({
-      data: {
-        userId: user.id,
-        teamId: teamId,
-        isCompleted: false,
+        userId,
+        teamId,
       },
     });
 
@@ -50,8 +48,8 @@ const participateTeam = async (
     });
 
     const data = {
-      userId: joinTeam.userId,
-      teamId: teamInfo?.id,
+      userId: userId,
+      teamId: teamId,
       teamName: teamInfo?.teamName,
     };
 

@@ -30,7 +30,7 @@ const participateTeam = async (
   const { teamId } = req.params;
 
   try {
-    const data = await teamService.participateTeam(participateTeamDto, +teamId);
+    const data = await teamService.participateTeam(+userId, +teamId);
 
     return res
       .status(statusCode.OK)
