@@ -1,4 +1,4 @@
-import { createTeamDto, participateTeamDto } from '../interfaces/DTO';
+import { createTeamDto } from '../interfaces/DTO';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
@@ -107,36 +107,6 @@ const checkTeamHappiness = async (teamId: number) => {
     throw error;
   }
 };
-const duplicateName = async (
-  teamId: number,
-  participateTeamDto: participateTeamDto,
-) => {
-  try {
-    const data = await prisma.team_user.findFirst({
-      where: {
-        AND: [
-          {
-            teamId: teamId,
-          },
-          {
-            nickname: {
-              name: participateTeamDto.nickname,
-            },
-          },
-        ],
-      },
-    });
-    if (data) {
-      throw errorGenerator({
-        msg: message.DUPLICATE_NAME,
-        statusCode: statusCode.BAD_REQUEST,
-      });
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
 
 const getTeamInfo = async (teamId: number) => {
   try {
@@ -160,6 +130,5 @@ export default {
   makeTeam,
   participateTeam,
   checkTeamHappiness,
-  duplicateName,
   getTeamInfo,
 };

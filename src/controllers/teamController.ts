@@ -1,4 +1,4 @@
-import { createTeamDto, participateTeamDto } from '../interfaces/DTO';
+import { createTeamDto } from '../interfaces/DTO';
 import { Request, Response, NextFunction } from 'express';
 import { message, statusCode } from '../modules/constants';
 import { success } from '../modules/constants/util';
@@ -26,11 +26,10 @@ const participateTeam = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const userId = res.locals.JwtPayload;
   const { teamId } = req.params;
-  const participateTeamDto: participateTeamDto = req.body;
 
   try {
-    await teamService.duplicateName(+teamId, participateTeamDto);
     const data = await teamService.participateTeam(participateTeamDto, +teamId);
 
     return res
