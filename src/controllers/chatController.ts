@@ -5,7 +5,7 @@ import { createAnswerDto } from '../interfaces/DTO';
 import { chatService } from '../services';
 
 const chatAnswer = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId } = req.params;
+  const userId = res.locals.JwtPayload;
   const createAnswerDto: createAnswerDto = req.body;
   try {
     const data = await chatService.chatAnswer(+userId, createAnswerDto);
