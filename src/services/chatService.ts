@@ -14,7 +14,14 @@ const chatAnswer = async (userId: number, createAnswerDto: createAnswerDto) => {
         teamId: createAnswerDto.teamId,
       },
     });
-    return chat;
+    const data = {
+      questionType: chat.questionType,
+      questionNumber: chat.questionNumber,
+      answer: chat.answer,
+      grade: chat.grade,
+      teamId: chat.teamId,
+    };
+    return data;
   } catch (error) {
     throw error;
   }
