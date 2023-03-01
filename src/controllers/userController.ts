@@ -88,8 +88,7 @@ const getSocialUser = async (
 
 const getMyPage = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const userId = res.locals.JwtPayload;
-    const { userId } = req.params;
+    const userId = res.locals.JwtPayload;
     const data = await userService.getMyPage(+userId);
     return res
       .status(statusCode.OK)

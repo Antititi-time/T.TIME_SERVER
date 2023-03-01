@@ -12,6 +12,6 @@ router.post('/auth', [
   userController.getSocialUser,
 ]);
 
-router.get('/myPage/:userId', userController.getMyPage);
+router.get('/myPage', auth, userController.getMyPage);
 
 export default router;
