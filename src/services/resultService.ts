@@ -8,16 +8,16 @@ import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
 const prisma = new PrismaClient();
 
-const userResult = async (userId: number) => {
+const userResult = async (userId: number, teamId: number) => {
   try {
     const findTeam = await prisma.team_user.findFirst({
       where: {
-        userId: userId,
+        userId,
+        teamId,
       },
       select: {
         user: true,
         team: true,
-        teamId: true,
       },
     });
     if (!findTeam) {

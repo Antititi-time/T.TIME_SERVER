@@ -7,7 +7,7 @@ import errorValidator from '../middleware/error/errorValidator';
 const router: Router = Router();
 
 router.get(
-  '/:userId',
+  '/:userId/:teamId',
   [param('userId').notEmpty()],
   errorValidator,
   resultController.userResult,
