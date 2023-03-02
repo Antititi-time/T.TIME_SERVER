@@ -20,6 +20,7 @@ router.post(
   '/:teamId',
   [param('teamId').notEmpty()],
   errorValidator,
+  auth,
   teamController.participateTeam,
 );
 router.get(
