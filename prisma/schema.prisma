@@ -38,11 +38,9 @@ model team_user {
   isCompleted Boolean   @default(false)
   createdAt   DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
   updatedAt   DateTime? @updatedAt @db.Date
-  user        user      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
+  id          Int       @id @default(autoincrement())
   team        team      @relation(fields: [teamId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_team_id_fk")
-
-  @@id([userId, teamId], map: "team_user_pk")
-  @@unique([userId, teamId])
+  user        user      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_user_nickname_id_fk")
 }
 
 model user {
