@@ -8,10 +8,10 @@ import { success } from '../modules/constants/util';
 import { resultService } from '../services';
 
 const userResult = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId } = req.params;
+  const { userId, teamId } = req.params;
 
   try {
-    const data = await resultService.userResult(+userId);
+    const data = await resultService.userResult(+userId, +teamId);
 
     return res
       .status(statusCode.OK)

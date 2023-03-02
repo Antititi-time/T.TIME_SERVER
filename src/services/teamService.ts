@@ -34,6 +34,18 @@ const makeTeam = async (
 
 const participateTeam = async (userId: number, teamId: number) => {
   try {
+    const duplicate = await prisma.team_user.findFirst({
+      where: {
+        userId,
+        teamId,
+      },
+    });
+    if (duplicate) {
+      throw errorGenerator({
+        msg: message.DUPLICATE_TEAM,
+        statusCode: statusCode.BAD_REQUEST,
+      });
+    }
     await prisma.team_user.create({
       data: {
         userId,
