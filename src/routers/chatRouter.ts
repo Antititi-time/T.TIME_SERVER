@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { chatController } from '../controllers';
+import auth from '../middleware/auth';
 import errorValidator from '../middleware/error/errorValidator';
 
 const router: Router = Router();
@@ -15,6 +16,7 @@ router.post(
     body('teamId').isNumeric().notEmpty(),
   ],
   errorValidator,
+  auth,
   chatController.chatAnswer,
 );
 
