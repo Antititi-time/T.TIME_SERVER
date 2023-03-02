@@ -15,7 +15,7 @@ const userResult = async (userId: number, teamId: number) => {
         userId,
         teamId,
       },
-      select: {
+      include: {
         user: true,
         team: true,
       },
@@ -29,7 +29,8 @@ const userResult = async (userId: number, teamId: number) => {
     const scores = await prisma.chat.groupBy({
       by: ['questionType'],
       where: {
-        userId: userId,
+        userId,
+        teamId,
       },
       _sum: {
         grade: true,
