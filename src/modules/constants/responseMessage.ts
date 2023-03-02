@@ -15,6 +15,7 @@ export default {
   CREATE_TEAM_SUCCESS: '초대장 생성 성공',
   PARTICIPATE_TEAM_SUCCESS: '프로젝트 팀 입장 성공',
   DUPLICATE_NAME: '중복된 닉네임입니다.',
+  DUPLICATE_TEAM: '중복된 팀으로 입장하였습니다.',
   CHAT_ANSWER_SUCCESS: '해피니스 체크 답변 받기 성공',
   CHECK_TEAM_HAPPINESS_SUCCESS: '팀 해피니스 체크 성공',
   READ_USER_RESULT_SUCCESS: '개인 결과 뷰 조회 성공',
