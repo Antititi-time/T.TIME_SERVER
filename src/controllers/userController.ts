@@ -57,6 +57,7 @@ const getSocialUser = async (
     const data = {
       signUp: true,
       accessToken: accessToken,
+      name: existUser.name,
     };
 
     return res
@@ -82,6 +83,7 @@ const getSocialUser = async (
 
     return {
       accessToken: accessToken,
+      name: newUser.name,
     };
   }
 };
