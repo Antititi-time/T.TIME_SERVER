@@ -19,13 +19,6 @@ const makeTeam = async (
       },
     });
 
-    //방장 추가
-    await prisma.team_user.create({
-      data: {
-        userId,
-        teamId,
-      },
-    });
     return team;
   } catch (error) {
     throw error;
