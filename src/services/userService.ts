@@ -101,12 +101,14 @@ const getMyPage = async (userId: number) => {
       userInfo.map((data: any) => {
         const result = {
           date: data.updatedAt,
+          teamId: data.team.id,
           teamName: data.team.teamName,
         };
         return result;
       }),
     );
     const data = {
+      userId: userId,
       userName: userInfo[0].user.name,
       history: projectArray,
     };

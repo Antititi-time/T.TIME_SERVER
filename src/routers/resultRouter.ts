@@ -7,12 +7,6 @@ import errorValidator from '../middleware/error/errorValidator';
 const router: Router = Router();
 
 router.get(
-  '/:userId/:teamId',
-  [param('userId').notEmpty()],
-  errorValidator,
-  resultController.userResult,
-);
-router.get(
   '/team/score/:teamId',
   [param('teamId').notEmpty()],
   errorValidator,
@@ -36,6 +30,13 @@ router.patch(
   errorValidator,
   auth,
   resultController.checkUserHappiness,
+);
+
+router.get(
+  '/:userId/:teamId',
+  [param('userId').notEmpty()],
+  errorValidator,
+  resultController.userResult,
 );
 
 export default router;
