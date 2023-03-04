@@ -84,6 +84,7 @@ const getMyPage = async (userId: number) => {
         userId,
       },
       select: {
+        teamId: true,
         updatedAt: true,
         user: {
           select: {
@@ -101,7 +102,7 @@ const getMyPage = async (userId: number) => {
       userInfo.map((data: any) => {
         const result = {
           date: data.updatedAt,
-          teamId: data.team.id,
+          teamId: data.teamId,
           teamName: data.team.teamName,
         };
         return result;
