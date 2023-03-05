@@ -98,6 +98,22 @@ const getMyPage = async (userId: number) => {
         },
       },
     });
+    if (userInfo.length == 0) {
+      const user = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+        select: {
+          name: true,
+        },
+      });
+      const data = {
+        userId: userId,
+        userName: user?.name,
+        history: userInfo,
+      };
+      return data;
+    }
     const projectArray = await Promise.all(
       userInfo.map((data: any) => {
         const result = {
