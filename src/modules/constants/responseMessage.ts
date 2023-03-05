@@ -27,6 +27,7 @@ export default {
 
   // 토큰
   CREATE_TOKEN_SUCCESS: '토큰 재발급 성공',
+  READ_VALID_ACCESS_TOKEN_SUCCESS: '토큰 유효성 조회 성공',
   EXPIRED_TOKEN: '토큰이 만료되었습니다.',
   EXPIRED_ALL_TOKEN: '모든 토큰이 만료되었습니다.',
   INVALID_TOKEN: '유효하지 않은 토큰입니다.',
