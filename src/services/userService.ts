@@ -97,6 +97,9 @@ const getMyPage = async (userId: number) => {
           },
         },
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
     if (userInfo.length == 0) {
       const user = await prisma.user.findFirst({
