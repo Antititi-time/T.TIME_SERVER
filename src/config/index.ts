@@ -28,4 +28,9 @@ export default {
    */
   jwtSecret: process.env.JWT_SECRET as string,
   jwtAlgo: process.env.JWT_ALGORITHM as string,
+  /**
+   * SENTRY
+   */
+  sentryDsn: process.env.SENTRY_DSN as string,
+  sentryEnvironment: process.env.SENTRY_ENVIRONMENT as string,
 };

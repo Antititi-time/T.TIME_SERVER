@@ -3,8 +3,25 @@ import config from './config';
 import cors from 'cors';
 import router from './routers';
 import errorHandler from './middleware/error/errorHandler';
+import * as Sentry from '@sentry/node';
+import * as Tracing from '@sentry/tracing';
+import helmet from 'helmet';
 
 const app = express(); // express 객체 받아옴
+
+Sentry.init({
+  dsn: config.sentryDsn,
+  environment: config.sentryEnvironment,
+  integrations: [
+    new Sentry.Integrations.Http({ tracing: true }),
+    new Tracing.Integrations.Express({ app }),
+  ],
+  tracesSampleRate: 1.0,
+});
+
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(Sentry.Handlers.requestHandler() as express.RequestHandler);
+app.use(Sentry.Handlers.tracingHandler());
 
 const allowedOrigins = [
   'http://localhost:3000',
@@ -39,7 +56,8 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', router); // use -> 모든 요청
+app.use('/api', router);
+app.use(Sentry.Handlers.errorHandler());
 app.use(errorHandler);
 
 //Error Handler
