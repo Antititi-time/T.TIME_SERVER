@@ -26,7 +26,7 @@ router.get(
 );
 router.patch(
   '/:teamId',
-  [param('teamId').notEmpty(), body('isCompleted').notEmpty()],
+  [param('teamId').notEmpty(), body('isCompleted').isBoolean().notEmpty()],
   errorValidator,
   auth,
   resultController.checkUserHappiness,
@@ -34,7 +34,7 @@ router.patch(
 
 router.get(
   '/:userId/:teamId',
-  [param('userId').notEmpty()],
+  [param('userId').notEmpty(), param('teamId').notEmpty()],
   errorValidator,
   resultController.userResult,
 );
