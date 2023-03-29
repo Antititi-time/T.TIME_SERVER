@@ -1,7 +1,7 @@
 import { createTeamDto } from '../interfaces/DTO';
 import { Request, Response, NextFunction } from 'express';
 import { message, statusCode } from '../modules/constants';
-import { success } from '../modules/constants/util';
+import { success, fail } from '../modules/constants/util';
 import makeTeamId from '../modules/makeTeamId';
 import { teamService } from '../services';
 
@@ -47,6 +47,12 @@ const checkTeamHappiness = async (
 ) => {
   const { teamId } = req.params;
 
+  if (Number.isNaN(teamId)) {
+    return res
+      .status(statusCode.NOT_FOUND)
+      .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+  }
+
   try {
     const data = await teamService.checkTeamHappiness(+teamId);
 
@@ -60,6 +66,12 @@ const checkTeamHappiness = async (
 
 const getTeamInfo = async (req: Request, res: Response, next: NextFunction) => {
   const { teamId } = req.params;
+
+  if (Number.isNaN(teamId)) {
+    return res
+      .status(statusCode.NOT_FOUND)
+      .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+  }
 
   try {
     const data = await teamService.getTeamInfo(+teamId);

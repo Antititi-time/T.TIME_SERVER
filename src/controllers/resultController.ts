@@ -1,17 +1,20 @@
-import {
-  checkUserHappinessDto,
-  makePersonalResultDto,
-} from '../interfaces/DTO';
+import { checkUserHappinessDto } from '../interfaces/DTO';
 import { Request, Response, NextFunction } from 'express';
 import { message, statusCode } from '../modules/constants';
-import { success } from '../modules/constants/util';
+import { success, fail } from '../modules/constants/util';
 import { resultService } from '../services';
 
 const userResult = async (req: Request, res: Response, next: NextFunction) => {
   const { userId, teamId } = req.params;
+  const id = +Buffer.from(userId, 'base64').toString('utf8');
 
+  if (Number.isNaN(id) || Number.isNaN(teamId)) {
+    return res
+      .status(statusCode.NOT_FOUND)
+      .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+  }
   try {
-    const data = await resultService.userResult(+userId, +teamId);
+    const data = await resultService.userResult(id, +teamId);
 
     return res
       .status(statusCode.OK)
@@ -27,6 +30,12 @@ const teamResultByType = async (
   next: NextFunction,
 ) => {
   const { teamId } = req.params;
+
+  if (Number.isNaN(teamId)) {
+    return res
+      .status(statusCode.NOT_FOUND)
+      .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+  }
 
   try {
     const data = await resultService.teamResultByType(+teamId);
@@ -48,6 +57,12 @@ const getTeamResultType = async (
 ) => {
   const { teamId } = req.params;
 
+  if (Number.isNaN(teamId)) {
+    return res
+      .status(statusCode.NOT_FOUND)
+      .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+  }
+
   try {
     const data = await resultService.getResultByType(+teamId);
 
@@ -68,6 +83,12 @@ const getTeamDetailResult = async (
 ) => {
   const { type } = req.query;
   const { teamId } = req.params;
+
+  if (Number.isNaN(teamId)) {
+    return res
+      .status(statusCode.NOT_FOUND)
+      .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+  }
 
   try {
     const data = await resultService.getTeamDetailResult(

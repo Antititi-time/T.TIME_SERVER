@@ -6,8 +6,11 @@ import errorHandler from './middleware/error/errorHandler';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import helmet from 'helmet';
+import morgan from 'morgan';
+import { logger, stream } from './config/logger';
 
-const app = express(); // express 객체 받아옴
+const app = express();
+require('dotenv').config();
 
 Sentry.init({
   dsn: config.sentryDsn,
@@ -54,6 +57,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(morgan('combined', { stream: stream }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', router);
@@ -87,9 +92,10 @@ app
           🛡️  Server listening on port: ${config.port} 🛡️
     ################################################
   `);
+    logger.info('T.Time Server Start');
   })
   .on('error', (err) => {
-    console.error(err);
+    logger.error(err);
     process.exit(1);
   });
 

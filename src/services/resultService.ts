@@ -1,7 +1,4 @@
-import {
-  checkUserHappinessDto,
-  makePersonalResultDto,
-} from '../interfaces/DTO';
+import { checkUserHappinessDto } from '../interfaces/DTO';
 import dayjs from 'dayjs';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
@@ -219,7 +216,6 @@ const checkUserHappiness = async (
     }
 
     const result = {
-      userId: userId,
       isCompleted: checkUserHappinessDto.isCompleted,
     };
 
