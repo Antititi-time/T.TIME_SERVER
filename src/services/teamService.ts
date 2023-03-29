@@ -75,12 +75,6 @@ const checkTeamHappiness = async (teamId: number) => {
         isCompleted: true,
       },
     });
-    if (checkHappiness.length == 0) {
-      throw errorGenerator({
-        msg: message.NOT_FOUND,
-        statusCode: statusCode.NOT_FOUND,
-      });
-    }
     const teamInfo = await prisma.team.findFirst({
       where: {
         id: teamId,
