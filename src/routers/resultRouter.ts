@@ -8,25 +8,31 @@ const router: Router = Router();
 
 router.get(
   '/team/score/:teamId',
-  [param('teamId').notEmpty()],
+  [param('teamId').isNumeric().notEmpty()],
   errorValidator,
   resultController.teamResultByType,
 );
 router.get(
   '/team/:teamId',
-  [param('teamId').notEmpty()],
+  [param('teamId').isNumeric().notEmpty()],
   errorValidator,
   resultController.getTeamResultType,
 );
 router.get(
   '/team/:teamId/detail',
-  [param('teamId').notEmpty(), query('type').notEmpty()],
+  [
+    param('teamId').isNumeric().notEmpty(),
+    query('type').notEmpty().isIn(['a', 'b', 'c', 'd', 'e']),
+  ],
   errorValidator,
   resultController.getTeamDetailResult,
 );
 router.patch(
   '/:teamId',
-  [param('teamId').notEmpty(), body('isCompleted').isBoolean().notEmpty()],
+  [
+    param('teamId').isNumeric().notEmpty(),
+    body('isCompleted').isBoolean().notEmpty(),
+  ],
   errorValidator,
   auth,
   resultController.checkUserHappiness,
@@ -34,7 +40,10 @@ router.patch(
 
 router.get(
   '/:userId/:teamId',
-  [param('userId').notEmpty(), param('teamId').notEmpty()],
+  [
+    param('userId').isNumeric().notEmpty(),
+    param('teamId').isNumeric().notEmpty(),
+  ],
   errorValidator,
   resultController.userResult,
 );

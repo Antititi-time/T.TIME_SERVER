@@ -219,7 +219,7 @@ const checkUserHappiness = async (
     }
 
     const result = {
-      userId: userId,
+      userId: window.btoa(String(userId)),
       isCompleted: checkUserHappinessDto.isCompleted,
     };
 

@@ -18,20 +18,20 @@ router.post(
 );
 router.post(
   '/:teamId',
-  [param('teamId').notEmpty()],
+  [param('teamId').isNumeric().notEmpty()],
   errorValidator,
   auth,
   teamController.participateTeam,
 );
 router.get(
   '/check/:teamId',
-  [param('teamId').notEmpty()],
+  [param('teamId').isNumeric().notEmpty()],
   errorValidator,
   teamController.checkTeamHappiness,
 );
 router.get(
   '/:teamId',
-  [param('teamId').notEmpty()],
+  [param('teamId').isNumeric().notEmpty()],
   errorValidator,
   teamController.getTeamInfo,
 );
