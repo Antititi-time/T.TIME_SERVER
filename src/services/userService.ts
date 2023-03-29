@@ -128,7 +128,7 @@ const getMyPage = async (userId: number) => {
       }),
     );
     const data = {
-      userId: userId,
+      userId: Buffer.from(String(userId), 'utf8').toString('base64'),
       userName: userInfo[0].user.name,
       history: projectArray,
     };
