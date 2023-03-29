@@ -41,7 +41,7 @@ router.patch(
 router.get(
   '/:userId/:teamId',
   [
-    param('userId').isNumeric().notEmpty(),
+    param('userId').isString().notEmpty(),
     param('teamId').isNumeric().notEmpty(),
   ],
   errorValidator,

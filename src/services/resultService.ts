@@ -1,18 +1,16 @@
-import {
-  checkUserHappinessDto,
-  makePersonalResultDto,
-} from '../interfaces/DTO';
+import { checkUserHappinessDto } from '../interfaces/DTO';
 import dayjs from 'dayjs';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
 const prisma = new PrismaClient();
 
-const userResult = async (userId: number, teamId: number) => {
+const userResult = async (userId: string, teamId: number) => {
   try {
+    const id = +Buffer.from(userId, 'base64').toString('utf8');
     const findTeam = await prisma.team_user.findFirst({
       where: {
-        userId,
+        userId: id,
         teamId,
       },
       include: {
@@ -29,7 +27,7 @@ const userResult = async (userId: number, teamId: number) => {
     const scores = await prisma.chat.groupBy({
       by: ['questionType'],
       where: {
-        userId,
+        userId: id,
         teamId,
       },
       _sum: {
@@ -219,7 +217,7 @@ const checkUserHappiness = async (
     }
 
     const result = {
-      userId: window.btoa(String(userId)),
+      userId: Buffer.from(String(userId), 'utf8').toString('base64'),
       isCompleted: checkUserHappinessDto.isCompleted,
     };
 

@@ -11,7 +11,7 @@ const userResult = async (req: Request, res: Response, next: NextFunction) => {
   const { userId, teamId } = req.params;
 
   try {
-    const data = await resultService.userResult(+userId, +teamId);
+    const data = await resultService.userResult(userId, +teamId);
 
     return res
       .status(statusCode.OK)
