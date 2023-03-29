@@ -5,12 +5,11 @@ import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
 const prisma = new PrismaClient();
 
-const userResult = async (userId: string, teamId: number) => {
+const userResult = async (userId: number, teamId: number) => {
   try {
-    const id = +Buffer.from(userId, 'base64').toString('utf8');
     const findTeam = await prisma.team_user.findFirst({
       where: {
-        userId: id,
+        userId,
         teamId,
       },
       include: {
@@ -27,7 +26,7 @@ const userResult = async (userId: string, teamId: number) => {
     const scores = await prisma.chat.groupBy({
       by: ['questionType'],
       where: {
-        userId: id,
+        userId,
         teamId,
       },
       _sum: {
@@ -217,7 +216,6 @@ const checkUserHappiness = async (
     }
 
     const result = {
-      userId: Buffer.from(String(userId), 'utf8').toString('base64'),
       isCompleted: checkUserHappinessDto.isCompleted,
     };
 

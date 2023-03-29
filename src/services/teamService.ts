@@ -53,7 +53,7 @@ const participateTeam = async (userId: number, teamId: number) => {
     });
 
     const data = {
-      userId: userId,
+      userId: Buffer.from(String(userId), 'utf8').toString('base64'),
       teamId: teamId,
       teamName: teamInfo?.teamName,
     };
