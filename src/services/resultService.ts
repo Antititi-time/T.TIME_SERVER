@@ -121,6 +121,7 @@ const getResultByType = async (teamId: number) => {
         statusCode: statusCode.NOT_FOUND,
       });
     }
+
     const scores = await prisma.chat.groupBy({
       by: ['questionType'],
       where: {
@@ -135,6 +136,11 @@ const getResultByType = async (teamId: number) => {
         },
       },
     });
+
+    if (scores.length == 0) {
+      return scores;
+    }
+
     const teamResult = {
       date: dayjs().format('YYYY-MM-DD'),
       teamName: findTeamName?.teamName,
@@ -181,12 +187,7 @@ const getTeamDetailResult = async (teamId: number, type: string) => {
         return result;
       }),
     );
-    if (detailResult.length == 0) {
-      throw errorGenerator({
-        msg: message.NOT_FOUND,
-        statusCode: statusCode.NOT_FOUND,
-      });
-    }
+
     return detailResult;
   } catch (error) {
     throw error;
