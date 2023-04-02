@@ -6,7 +6,7 @@ import errorValidator from '../middleware/error/errorValidator';
 
 const router: Router = Router();
 
-router.post(
+router.put(
   '/',
   [
     body('questionType').isString().notEmpty().isIn(['a', 'b', 'c', 'd', 'e']),
