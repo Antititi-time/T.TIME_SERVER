@@ -32,12 +32,21 @@ const participateTeam = async (userId: number, teamId: number) => {
         userId,
         teamId,
       },
+      include: {
+        team: {
+          select: {
+            teamName: true,
+          },
+        },
+      },
     });
     if (duplicate) {
-      throw errorGenerator({
-        msg: message.DUPLICATE_TEAM,
-        statusCode: statusCode.BAD_REQUEST,
-      });
+      const data = {
+        userId: Buffer.from(String(userId), 'utf8').toString('base64'),
+        teamId: teamId,
+        teamName: duplicate?.team.teamName,
+      };
+      return data;
     }
     await prisma.team_user.create({
       data: {
