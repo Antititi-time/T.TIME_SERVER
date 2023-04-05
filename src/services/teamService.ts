@@ -2,6 +2,7 @@ import { createTeamDto } from '../interfaces/DTO';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
+import crypto from '../modules/crypto';
 const prisma = new PrismaClient();
 
 const makeTeam = async (
@@ -42,7 +43,7 @@ const participateTeam = async (userId: number, teamId: number) => {
     });
     if (duplicate) {
       const data = {
-        userId: Buffer.from(String(userId), 'utf8').toString('base64'),
+        userId: crypto.encodeId(userId),
         teamId: teamId,
         teamName: duplicate?.team.teamName,
       };
@@ -62,7 +63,7 @@ const participateTeam = async (userId: number, teamId: number) => {
     });
 
     const data = {
-      userId: Buffer.from(String(userId), 'utf8').toString('base64'),
+      userId: crypto.encodeId(userId),
       teamId: teamId,
       teamName: teamInfo?.teamName,
     };
