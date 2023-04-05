@@ -3,18 +3,19 @@ import { Request, Response, NextFunction } from 'express';
 import { message, statusCode } from '../modules/constants';
 import { success, fail } from '../modules/constants/util';
 import { resultService } from '../services';
+import crypto from '../modules/crypto';
 
 const userResult = async (req: Request, res: Response, next: NextFunction) => {
   const { userId, teamId } = req.params;
-  const id = +Buffer.from(userId, 'base64').toString('utf8');
+  const decodeId = +crypto.decodeId(userId);
 
-  if (Number.isNaN(id) || Number.isNaN(teamId)) {
+  if (Number.isNaN(decodeId) || Number.isNaN(teamId)) {
     return res
       .status(statusCode.NOT_FOUND)
       .send(fail(statusCode.NOT_FOUND, message.NOT_FOUND));
   }
   try {
-    const data = await resultService.userResult(id, +teamId);
+    const data = await resultService.userResult(decodeId, +teamId);
 
     return res
       .status(statusCode.OK)

@@ -2,6 +2,7 @@ import auth from '../config/auth';
 import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
+import crypto from '../modules/crypto';
 const prisma = new PrismaClient();
 
 export type SocialPlatform = 'KAKAO' | 'GOOGLE';
@@ -128,7 +129,7 @@ const getMyPage = async (userId: number) => {
       }),
     );
     const data = {
-      userId: Buffer.from(String(userId), 'utf8').toString('base64'),
+      userId: crypto.encodeId(userId),
       userName: userInfo[0].user.name,
       history: projectArray,
     };
