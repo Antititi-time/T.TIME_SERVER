@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import errorGenerator from '../middleware/error/errorGenerator';
 import { message, statusCode } from '../modules/constants';
 import crypto from '../modules/crypto';
+import dayjs from 'dayjs';
 const prisma = new PrismaClient();
 
 export type SocialPlatform = 'KAKAO' | 'GOOGLE';
@@ -121,7 +122,7 @@ const getMyPage = async (userId: number) => {
     const projectArray = await Promise.all(
       userInfo.map((data: any) => {
         const result = {
-          date: data.updatedAt,
+          date: dayjs(data.updatedAt).add(9, 'hour').format('YYYY-MM-DD'),
           teamId: data.teamId,
           teamName: data.team.teamName,
         };

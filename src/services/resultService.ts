@@ -142,7 +142,7 @@ const getResultByType = async (teamId: number) => {
     }
 
     const teamResult = {
-      date: dayjs().format('YYYY-MM-DD'),
+      date: dayjs().add(9, 'hour').format('YYYY-MM-DD'),
       teamName: findTeamName?.teamName,
       good: scores[0].questionType,
       bad: scores.reverse()[0].questionType,

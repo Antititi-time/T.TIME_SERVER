@@ -43,7 +43,7 @@ const participateTeam = async (userId: number, teamId: number) => {
     });
     if (duplicate) {
       const data = {
-        userId: Buffer.from(String(userId), 'utf8').toString('base64'),
+        userId: crypto.encodeId(userId),
         teamId: teamId,
         teamName: duplicate?.team.teamName,
       };
