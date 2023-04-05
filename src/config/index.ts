@@ -33,4 +33,9 @@ export default {
    */
   sentryDsn: process.env.SENTRY_DSN as string,
   sentryEnvironment: process.env.SENTRY_ENVIRONMENT as string,
+
+  /**
+   * CRYTO
+   */
+  cryptoKey: process.env.CRYPTO_KEY as string,
 };
