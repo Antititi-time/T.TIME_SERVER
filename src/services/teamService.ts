@@ -49,9 +49,9 @@ const participateTeam = async (userId: number, teamId: number) => {
       };
       return data;
     }
-    await prisma.team_user.create({
-      data: {
-        userId,
+
+    const checkTeamMember = await prisma.team_user.findMany({
+      where: {
         teamId,
       },
     });
@@ -59,6 +59,19 @@ const participateTeam = async (userId: number, teamId: number) => {
     const teamInfo = await prisma.team.findFirst({
       where: {
         id: teamId,
+      },
+    });
+    if (checkTeamMember.length == teamInfo?.teamMember) {
+      throw errorGenerator({
+        msg: message.OUT_OF_TEAM_MEMBER,
+        statusCode: statusCode.FORBIDDEN,
+      });
+    }
+
+    await prisma.team_user.create({
+      data: {
+        userId,
+        teamId,
       },
     });
 
