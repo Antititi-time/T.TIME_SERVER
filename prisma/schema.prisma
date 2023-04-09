@@ -45,7 +45,7 @@ model team_user {
 
 model user {
   id           Int         @id @unique @default(autoincrement())
-  name         String      @db.VarChar(4)
+  name         String      @db.VarChar(30)
   createdAt    DateTime    @default(dbgenerated("CURRENT_DATE")) @db.Date
   updatedAt    DateTime?   @default(dbgenerated("CURRENT_DATE")) @db.Date
   social       String?     @db.VarChar(10)
