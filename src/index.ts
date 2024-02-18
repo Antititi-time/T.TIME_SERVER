@@ -32,9 +32,9 @@ const allowedOrigins = [
   'http://192.168.0.123:3000',
   'http://192.168.0.126:3000',
   'http://192.168.0.128:3000',
-  'https://www.ttime.site',
-  'https://ttime.site',
-  'https://api.ttime.site',
+  'https://www.tttime.store',
+  'https://tttime.store',
+  'https://api.tttime.store',
   'https://t-time.vercel.app',
   config.ec2URL,
 ];
